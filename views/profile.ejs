@@ -1,0 +1,42 @@
+<% include partials/header %>
+
+<h1 class="user-name wow fadeInDown" ><%= donor.name %> (<%= donor.local.username %> )</h1>
+<% if(donor.activeStatus == true) { %>
+    <h4 class="text-center user-name wow fadeInDown" style="color:#007642"> Currently Active </h4>
+<% } else { %>
+    <h4 class="text-center user-name wow fadeInDown"> Not Active</h4>
+    <% } %>
+    
+<section>
+  <div class="container py-3">
+    <div class="card" style="width:auto;">
+      <div class="row ">
+        <div class="col-md-4">
+             <a href="#" title="title here" class="wow zoomInUp">
+                <% var file = 'uploads/' + donor.profilePic ; %>
+                <img src="<%= file %>" alt="Avatar" class="w-100"/>
+            </a>
+          </div>
+          <div class="col-md-8 px-3">
+            <div class="card-block wow fadeInUp px-3">
+                <div class="card-text">
+                    <ul style="list-style:none;margin-top:100px;line-height:2;">
+                        <li>Email         : <%= donor.email %></li>
+                        <li>Contact       : <%= donor.contactNumber%></li>
+                        <li>Address       : <%= donor.address %></li>
+                        <li>Blood Group   : <%= donor.bloodGroup %></li>
+                        <li>Gender        : <%= donor.gender%></li>
+                        <li>D.O.B.        : <%= donor.dob %></li>
+                        <li>City          : <%= donor.city%></li>
+                        <li>Last donation : <%= donor.dateOfLastDonation %></li>
+                    </ul>
+                </div>
+                <a href="/edit" class="btn btn-xl btn-general btn-blue text-center" style="margin-left:40px;">Edit Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>  
+  
+<% include partials/footer %>

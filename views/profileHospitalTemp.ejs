@@ -1,0 +1,63 @@
+<% include partials/header %>
+
+
+<h1 class="user-name wow fadeInDown" ><%= hospital.name %></h1>
+
+    
+<section>
+  <div class="container py-3">
+    <div class="card" style="width:auto;">
+      <div class="row ">
+        <div class="col-md-4">
+             <a href="#" title="title here" class="wow zoomInUp">
+                <% var file = 'uploads/' + hospital.profilePic ; %>
+                <img src="<%= file %>" alt="Avatar" class="w-100" style="height:300px;"/>
+            </a>
+          </div>
+          <div class="col-md-8 px-3">
+            <div class="card-block px-3 wow fadeInUp" style="margin:20px 0;">
+                <div class="card-text">
+                    <ul style="list-style:none;line-height:2;">
+                        <li>Username  : <%= hospital.local.username %></li>
+                        <li>Email     : <%= hospital.email %></li>
+                        <li>Contact   : <%= hospital.contactNumber%></li>
+                        <li>City      : <%= hospital.city%></li>
+                        <li>Address   : <%= hospital.address %></li>
+                    </ul>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>  
+
+
+
+
+<!--
+
+<a href="/editHospital" style="float:right;">Edit Profile</a>
+<h1 class="user-name" ><%= hospital.name %></h1>
+
+<div class="container user-profile">
+    <div class="row">
+        <div class="user-image" class="col-md-3 animated slideInleft ">
+            <% var file = 'uploads/' + hospital.profilePic ; %>
+            <img src="<%= file %>" alt="Avatar" height="300" width="300" class="img-responsive" style="border-radius:50%;"/>
+        </div>
+        <div class="profile-user-info" class="col-md-9 animated slideInRight">
+            <ul style="list-style:none;">
+                <li>Username : <%= hospital.local.username %></li>
+                <li>Email :  <%= hospital.email %></li>
+                <li>Contact : <%= hospital.contactNumber%></li>
+                <li>City : <%= hospital.city%></li>
+                <li>Address : <%= hospital.address %></li>
+            </ul>
+        </div>
+    </div>
+</div>
+-->
+
+<% include partials/footer %>

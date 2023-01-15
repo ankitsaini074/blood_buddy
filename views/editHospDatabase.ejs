@@ -1,0 +1,84 @@
+<% include partials/header %>
+    <div class="container-fluid edit-hosp-database-container" style="background-image:linear-gradient(red,white);height:100vh;">
+        <form action="/hospDatabaseForm" id ="form" method="POST" >
+            <div class="form-group" style="padding:0 8%;">
+                <label>
+                    A+<br>
+                    <input type ="text" class="form-control" name ="A"  value=<%=data.A %> required>
+                </label>
+                <label>
+                    A-<br>
+                    <input type ="text" class="form-control" name ="A_" value=<%=data.A_ %>  required>
+                </label>
+                <label>
+                    A1+<br>
+                    <input type ="text" class="form-control" name ="A1"  value=<%=data.A1 %> required>
+                </label>
+                <label>
+                    A1-<br>
+                    <input type ="text" class="form-control" name ="A1_"  value=<%=data.A1_ %> required>
+                </label>
+                <label>
+                    A2+<br>
+                    <input type ="text" class="form-control" name ="A2"  value=<%=data.A2 %> required>
+                </label>
+                <label>
+                    A2-<br>
+                    <input type ="text" class="form-control" name ="A2_"  value=<%=data.A2_ %> required>
+                </label>
+                <label>
+                    A1B+<br>
+                    <input type ="text" class="form-control" name ="A1B"  value=<%=data.A1B %> required>
+                </label>
+                <label>
+                    A1B-<br>
+                    <input type ="text" class="form-control" name ="A1B_"  value=<%=data.A1B_ %> required>
+                </label>
+                <label>
+                    A2B<br>
+                    <input type ="text" class="form-control" name ="A2B"  value=<%=data.A2B %> required>
+                </label>
+                <label>
+                    A2B-<br>
+                    <input type ="text" class="form-control" name ="A2B_"  value=<%=data.A2B_ %> required>
+                </label>
+                <label>
+                    AB+<br>
+                    <input type ="text" class="form-control" name ="AB"  value=<%=data.AB %> required>
+                </label>
+                <label>
+                    AB-<br>
+                    <input type ="text" class="form-control" name ="AB_"  value=<%=data.AB_ %> required>
+                </label>
+                <label>
+                    B+<br>
+                    <input type ="text" class="form-control" name ="B"  value=<%=data.B %> required>
+                </label>
+                <label>
+                    B-<br>
+                    <input type ="text" class="form-control" name ="B_"  value=<%=data.B_ %> required>
+                </label>
+                
+                <label>
+                    O+<br>
+                    <input type ="text" class="form-control" name ="O"  value=<%=data.O %> required>
+                </label>
+                <label>
+                    O-<br>
+                    <input type ="text" class="form-control" name ="O_"  value=<%=data.O_ %> required>
+                </label>
+                
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-xl btn-general btn-blue text-center" style="margin:50px 171px 0 0;">UPDATE</button>
+            </div>
+        </form>
+    </div>
+<!--
+    <script>
+        alert("hello world");
+    </script>
+-->
+        
+<% include partials/footer %>
+        

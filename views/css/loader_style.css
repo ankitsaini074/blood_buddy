@@ -1,0 +1,49 @@
+body{
+/*
+	margin:0;
+	padding: 0;
+	background: #262626;
+	font-family: arial;*/
+}
+.loader1
+{
+	font-family: arial;
+	position: absolute;
+	top: 49%;
+	left: 50%;
+	transform :translate(-50%,-50%);
+}
+.loader1 h1
+{
+	margin: 0;
+	padding: 0;
+/*	text-transform: uppercase;*/
+	font-size: 8em;
+    font-weight: 700;
+	color: rgba(255,255,255,.1);
+	background-image: url(../img/image.jpg);
+	background-repeat: repeat-x;
+	-webkit-background-clip:text;
+	animation:animate 15s linear infinite
+}
+@keyframes animate
+{
+	0%
+	{
+		background-position: left 0px top 150px;
+	}
+	40%
+	{
+		background-position: right 800px top 20px;
+	}
+	80%
+	{
+		background-position: right 1800px top 20px;
+	}
+	100%
+	{
+		background-position: right 2400px top 20px;
+		
+	}
+
+}

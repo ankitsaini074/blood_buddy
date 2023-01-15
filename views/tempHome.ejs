@@ -1,0 +1,288 @@
+<% include partials/header %>
+
+<!-- home -->
+<div class="bgimg animated fadeIn" style="animation-delay:.1s;">
+    <div class="main-background-color">
+        <div class="container text-center headerset  ">
+            <h2 class="animated fadeIn" style="animation-delay:.2s;">Welcome To Blood Buddy!</h2>
+            <h3 class="animated fadeIn" style="animation-delay:.5s;">It's NICE TO SEE YOU HERE</h3>
+
+            <% if(!currentUser){ %>
+            <button class="btn btn-blue-filled btn-xl btn-general animated fadeIn " style="animation-delay:.8s;" onclick="$('#search-donors').fadeTo(500,1);$(body).css('overflow','hidden');"><b>Search Donor</b></button>
+            <% } else { %>
+            <h3 class="animated fadeIn" style="animation-delay:.7s;">
+                <%= currentUser.local.username %>
+            </h3>
+            <% } %>
+        </div>
+    </div>
+</div>
+<!-- services section -->
+<section id="services">
+    <div class="content-box">
+        <div class="content-title wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
+            <h3 class="text-center">Services</h3>
+            <div class="content-title-underline"></div>
+        </div>
+
+        <div class="container">
+
+            <div class="row wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
+
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <div class="service-item-icon">
+                            <i class="fas fa-burn fa-2x"></i>
+                        </div>
+                        <div class="service-item-title">
+                            <h3>DONOR</h3>
+                        </div>
+                        <div class="service-item-desc">
+                            <p>Any one who wants to save the life of any person can register as a donor.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <div class="service-item-icon">
+                            <i class="fas fa-procedures fa-2x"></i>
+                        </div>
+                        <div class="service-item-title">
+                            <h3>RECIEVER</h3>
+                        </div>
+                        <div class="service-item-desc">
+                            <p>Any one who is in need , can get the blood easily from here.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <div class="service-item-icon">
+                            <i class="fas fa-hospital fa-2x"></i>
+                        </div>
+                        <div class="service-item-title">
+                            <h3>HOSTPITALS</h3>
+                        </div>
+                        <div class="service-item-desc">
+                            <p>A lot of hospitals are linked with our app and reciever can use their blood bank.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- stats section -->
+<section id="stats">
+    <div id="stats-cover" class="bg-parallax">
+        <div class="content-box">
+            <div class="content-title content-title-white wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
+                <h3>We never stop improving</h3>
+                <div class="content-title-underline"></div>
+            </div>
+            <div class="container">
+                <div class="row wow bounceInLeft text-center" data-wow-duration="1s" data-wow-delay=".3s">
+                    <div class="col-md-3 ">
+                        <div class="stats-item">
+                            <i class="fas fa-users fa-5x"></i>
+                            <h2><span class="counter">105 </span><span>+</span></h2>
+                            <p>users</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 ">
+                        <div class="stats-item">
+                            <i class="fas fa-user-friends fa-5x"></i>
+                            <h2><span class="counter">75 </span><span>+</span></h2>
+                            <p>Donors</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 ">
+                        <div class="stats-item">
+                            <i class="fas fa-hospital-alt fa-5x"></i>
+                            <h2><span class="counter">50 </span><span>+</span></h2>
+                            <p>Hospitals</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 ">
+                        <div class="stats-item">
+                            <i class="fas fa-hands fa-5x"></i>
+                            <h2><span class="counter">42 </span><span>+</span></h2>
+                            <p>NGO's</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about">
+
+    <!-- About right side wih diagonal BG parallax -->
+    <div id="about-bg-diagonal" class="bg-parallax"> </div>
+    <!-- About left sid with content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="about-content-box">
+                    <div id="about-content-box-outer">
+                        <div id="about-content-box-inner">
+                            <div class="content-title wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
+                                <h3>About</h3>
+                                <div class="content-title-underline"></div>
+                            </div>
+                            <div id="about-desc" class="wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
+                                <p>In our country we loose millions of lives each year just because of lack of availability of blood. This is so serious and saddening that we are a group of 1.3 billion people and still we are not able to save lives. 
+Our project with the help of technology will connect all people,hospitals & ngo’s who require and are willing to donate blood.
+
+                                </p>
+                            </div>
+                            <div id="about-btn" class="wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
+                                <a class="btn btn-xl btn-general btn-blue" href="/auth/register" role="button">Contribute</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Testimonials Section-->
+<section id="testimonials">
+
+    <div id="testimonials-cover" class="bg-parallax">
+        <div class="content-box">
+            <div class="content-title content-title-white wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
+                <h3>What Our Users Say</h3>
+                <div class="content-title-underline"></div>
+            </div>
+            <div class="container">
+                <div class="row wow bounceInDown" data-wow-duration="1s" data-wow-delay=".3s">
+                    <div class="col-md-12">
+                        <div id="customers-testimonials" class="text-center owl-carousel owl-theme">
+                            <div class="testimonial">
+                                <img src="img/users/client-1.jpg" class="img-responsive rounded-circle" alt="testimonial">
+                                <blockquote>
+                                    <p>Awesome application for helping needy people.All the people who wants blood with in a short time can have benefit from here.</p>
+                                </blockquote>
+                                <div class="testimonial-author">
+                                    <p>
+                                        <strong> Daniel Watrous </strong>
+                                        <!--                                            <span> CEO & Founder - Google</span>-->
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="testimonial">
+                                <img src="img/users/client-2.jpg" class="img-responsive rounded-circle" alt="testimonial">
+                                <blockquote>
+                                    <p>I donated blood to a needy patient undergoing open heart surgery at GKNM Hospital, Coimbatore. I am happy to be associated with Blood Buddy and thank them for giving me this opportunity.</p>
+                                </blockquote>
+                                <div class="testimonial-author">
+                                    <p>
+                                        <strong> Daniel Watrous </strong>
+                                        <!--                                            <span> CEO & Founder - Google</span>-->
+
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="testimonial">
+                                <img src="img/users/client-3.jpg" class="img-responsive rounded-circle" alt="testimonial">
+                                <blockquote>
+                                    <p>Ubi fore aute ex expetendis. Aut nisi senserit illustriora. Aut noster arbitror
+                                        si de aute doctrina comprehenderit. Ullamco amet eram ex quid, eu fore fabulas
+                                        qui fugiat ullamco ex distinguantur est amet pariatur sed eram quid. Deserunt
+                                        irure iudicem quamquam. Est offendit comprehenderit.</p>
+                                </blockquote>
+                                <div class="testimonial-author">
+                                    <p>
+                                        <strong> Daniel Watrous </strong>
+                                        <!--                                            <span> CEO & Founder - Google</span>-->
+
+                                    </p>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="contact-left">
+                    <h3>BLOOD BUDDY</h3>
+                    <p>We believe in <strong>Simple </strong>&<strong>Strong </strong> mutual relation in between we and you.Browse the amazing work of our company.</p>
+                    <div id="contact-info">
+                        <address>
+                            <strong>Headquarters:</strong><br>
+                            <p>NIT KURUKSHETRA,<br>
+                                KURUKSHETRA 136118</p>
+                        </address>
+
+                        <div id="phone-fax-email">
+                            <p>
+                                <strong>Phone:</strong> <span>9068793674</span><br>
+                                <strong>Fax : </strong> <span>9068793674</span><br>
+                                <strong>Email:</strong> <span>blood_buddy@gmail.com</span><br>
+                            </p>
+                        </div>
+                    </div>
+                    <ul class="social-list">
+                        <li><a href="https://www.facebook.com/nitkkr.ac.in" target="_blank" class="social-icon icon-white"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#" target="_blank" class="social-icon icon-white"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#" target="_blank" class="social-icon icon-white"><i class="fab fa-youtube"></i></a></li>
+                        <li><a href="#" target="_blank" class="social-icon icon-white"><i class="fab fa-google-plus-g"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="contact-right">
+                    <h3>contact us</h3>
+                    <div id="contact-form">
+                        <form action="#">
+                            <input type="text" name="userName" placeholder="Full Name" class="form-control footer-control" required><br>
+                            <input type="email" name="userEmail" placeholder="Email Address" class="form-control footer-control" required><br>
+                            <textarea rows="5" name="message" placeholder="Message..." class="form-control footer-control"></textarea><br>
+                            <div id="send-btn">
+                                <a href="" role="button" class="btn btn-lg btn-general btn-white" onclick="alert('Thanks for contacting us, We will reply you soon !!!');">SEND</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div id="footer-copyrights">
+                        <p>Copyrights &copy; 2018 All Rights Reserved by Blood_Buddy.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</footer>
+
+<% include partials/footer %>

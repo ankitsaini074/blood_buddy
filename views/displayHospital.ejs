@@ -1,0 +1,18 @@
+<% include partials/header %>
+<div class="container">
+	<h1>Hospitals list</h1>
+    <div class="row">
+<br>
+        <ul>
+            <%hospitals.forEach(function(hosp){%>
+                <li><div ><h1><%=hosp.name%> </h1>
+                          <%=hosp.contactNumber%>
+
+                 </div></li>
+
+                <%});%>
+        </ul>
+
+    </div>
+
+<% include partials/footer %>

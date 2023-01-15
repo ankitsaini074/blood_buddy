@@ -1,0 +1,756 @@
+/*******************************************************************************************
+                            DEFAULT COLORS AND FONTS
+        RoseWood                                :#5B0909
+        ENGINEERING                             :#B21111
+        Red                                     :#F20000            (heading , buttons )
+        PASTEL RED                              :#f26060
+        TULIP                                   :#ff8c8c 
+        Greenish Blue                           :#34C6D3
+        gray                                    :#64707b            (paragraph)
+        charcoal                                :#333E48            (links)
+***********************************************/
+
+
+/*************************************
+            general section
+***************************************/
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+h3 {
+    color: #F20000;
+    text-transform: uppercase;
+    font-size: 50px;
+    font-weight: 700;
+}
+h4{
+     color: #F20000;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+p {
+    color: #64707b;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+/*==================================
+        PARALLAX (Generic)
+===========================================*/
+.bg-parallax {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/****************************************
+            CONTENT  - BOX
+****************************************/
+.content-box {
+    padding: 60px 0 60px 0;
+}
+
+.content-title h3 {
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+
+.content-title-white h3 {
+    color: #fff;
+}
+
+.content-title-underline {
+    width: 30px;
+    height: 3px;
+    background-color: #0076B2;
+    margin: 0 auto 40px auto;
+}
+
+/*************************************
+            NAVBAR SECTION
+***************************************/
+.bg-tulip {
+    background-color: rgba(178, 17, 17, .1);
+}
+
+.nav-transparent {
+    transition: 1s ease;
+}
+
+.nav-color {
+    background-color: #B21111;
+}
+
+.custom-toggler.navbar-toggler {
+    border-color: rgba(0, 0, 0, .5);
+}
+
+.custom-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0,0,0,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.navbar a {
+    text-decoration: none;
+}
+
+.custom-text-color-nav-item {
+    color: #333E48;
+    font-weight: 700;
+}
+
+.custom-text-color-nav-item:hover {
+    color: #34c6d3;
+    font-weight: 700;
+}
+.custom-text-color-logo{
+    background: -webkit-linear-gradient(red,gray);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.main-navbar-container{
+    background-color: #fff;
+    border-radius: 20px;;
+}
+/*****************************************
+            HEADER SECTION
+*****************************************/
+.bgimg {
+    background-image: url('../img/image2.jpg');
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100vh;
+}
+
+.headerset {
+    padding-top: 21.3%;
+    box-sizing: border-box;
+
+}
+
+.headerset h2 {
+    font-size: 42px;
+    color: #F20000;
+    font-weight: 700;
+}
+
+.headerset h1 {
+    font-size: 72px;
+    font-weight: bold;
+    color: #F20000;
+}
+
+.main-background-color {
+    background-color: rgba(0, 0, 0, .2);
+    height: 100vh;
+}
+
+/*************************************
+            PROFILE SECTION
+***************************************/
+
+.user-profile {
+    color: #34C6D3;
+    margin-top: 50px;
+}
+
+.profile-user-info {
+    padding-left: 75px;
+}
+.profile-user-info > ul > li{
+font-size:22px;
+}
+
+h1.user-name {
+    text-align: center;
+    color: #5B0909;
+    margin-top: 9%;
+}
+
+/*************************************
+            Button General
+***************************************/
+.btn-general {
+    background-color: transparent;
+    border: solid 2px;
+    border-radius: 10px;
+}
+
+.btn-blue {
+    color: #0076B2;
+    
+}
+.btn-blue:hover {
+    background-color: #0076B2;
+    color: white;
+    border-color: #0076B2;
+}
+.btn-blue-filled{
+    color:#fff;
+    background-color:#0076B2;
+    border-color:#0076B2;
+}
+.btn-blue-filled:hover{
+    transform: scale(1.1);
+    transition: 0.8s ease;
+}
+.btn-white {
+    color: #fff;
+}
+
+.btn-white:hover {
+    background-color: #fff;
+    color: #41464b;
+    border-color: #fff;
+}
+
+.btn-xl {
+    padding: 10px 20px;
+    font-size: 25px;
+    /*    border-radius: 0px;*/
+}
+
+/*==================================
+        ABOUT SECTION
+==========================================*/
+#about {
+    padding: 60px 0 60px 0;
+}
+
+#about-content-box {
+    float: left;
+    height: 700px;
+    width: 100%;
+}
+
+#about .content-title h3 {
+    text-align: left;
+}
+
+#about .content-title-underline {
+    margin: 0 0 30px 0;
+}
+
+
+#about-content-box-outer {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#about-content-box-inner {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+}
+
+#about-desc p {
+    margin-bottom: 30px;
+    /*    float: left;*/
+    width: 100%;
+}
+
+
+#about-bg-diagonal {
+
+    height: 700px;
+    width: 60%;
+    float: right;
+    border-left: 200px solid white;
+    border-top: 700px solid transparent;
+    background-image: url(../img/bg-about1.jpg);
+}
+
+/*********************************************
+                SERVICES SECTION
+**********************************************/
+
+.service-item {
+    padding: 20px 0 20px 0;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.service-item-icon i {
+    color: #F20000;
+    float: left;
+    padding: 15px;
+    margin-right: 25px;
+    height: 75px;
+    width: 75px;
+    text-align: center;
+}
+
+.service-item:hover .service-item-icon i {
+    color: #fff;
+    background-color: #F20000;
+}
+
+.service-item-title h3 {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0 0 10px 0;
+    color: #F20000;
+}
+
+.service-item-desc p {
+    margin: 0;
+    padding-left: 85px;
+}
+
+/********************************************
+                TESTIMONIALS
+******************************************/
+#testimonials-cover {
+    background-image: url(../img/bg-testimonials.jpg);
+}
+
+#testimonials .content-box {
+    background-color: rgba(0, 0, 0, .2);
+}
+
+#customers-testimonials {
+    padding: 50px 0;
+}
+
+.testimonial img {
+    max-width: 120px;
+    margin: 0 auto 0 auto;
+}
+
+.testimonial blockquote {
+    border: 0;
+    font-family: Georgia, sans-serif;
+    font-style: italic;
+    color: #fff;
+    padding: 6px 150px;
+    position: relative
+}
+
+.testimonial blockquote p {
+    color: #fff;
+}
+
+.testimonial blockquote::before,
+.testimonial blockquote::after {
+    font-size: 80px;
+    font-style: normal;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+}
+
+.testimonial blockquote::before {
+    content: "\201C";
+    top: 0;
+    left: 100px;
+}
+
+.testimonial blockquote::after {
+    content: "\201D";
+    bottom: 0;
+    right: 100px;
+}
+
+.testimonial-author p {
+    color: #fff;
+    font-size: 17px;
+}
+
+.testimonial-author p strong {
+    display: block;
+}
+
+/********************************************
+                STATS
+******************************************/
+#stats-cover {
+    background-image: url(../img/bg-stats1.jpg);
+
+}
+
+#stats .content-box {
+    background-color: rgba(0, 0, 0, .8);
+    margin-top: 30px;
+}
+
+.stats-item {
+    padding: 100px 0;
+}
+
+.stats-item i {
+    color: rgba(242, 0, 0, .8);
+}
+
+.stats-item h2 {
+    color: #fff;
+    font-size: 35px;
+    font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: 1px;
+}
+
+.stats-item p {
+    color: #fff;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-top: 0;
+}
+
+/********************************************
+                SOCIAL
+******************************************/
+
+.social-list {
+    padding-left: 0;
+}
+
+.social-list li {
+    list-style: none;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin-right: 6px;
+    margin-top: 10px;
+}
+
+.social-icon i {
+    font-size: 17px;
+}
+
+
+.icon-gray i {
+    color: #64707b;
+}
+
+.icon-white i {
+    color: #fff;
+}
+
+
+.social-icon i:hover {
+    color: #34c6d3;
+}
+
+/********************************************
+                CONTACT
+******************************************/
+footer {
+    background-color: #41464b;
+    padding-top: 30px;
+    border-top: 2px solid rgba(0, 0, 0, .2);
+    margin-top: 60px;
+
+}
+
+.contact-left h3,
+.contact-right h3 {
+    color: #fff;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.contact-left p {
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+#contact-info {
+    background-image: url(../img/world-map.png);
+    background-repeat: no-repeat;
+    background-size: contain
+}
+
+address {
+    color: #fff;
+}
+
+address strong,
+#phone-fax-email strong {
+    letter-spacing: 1px;
+}
+
+form .form-control.footer-control {
+    background: transparent;
+    border-radius: 0;
+    border-color: #fff;
+    padding: 5px 16px;
+    font-size: 17px;
+    font-weight: 100;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/********************************************
+                FOOTER
+******************************************/
+#footer-bottom {
+    background-color: rgba(0, 0, 0, .2);
+    padding: 30px 0;
+    margin-top: 60px;
+}
+
+#footer-copyrights p {
+    margin: 0;
+    color: #fff;
+}
+
+#footer-menu {
+    float: left;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+#footer-menu ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+#footer-menu ul li {
+    display: inline-block;
+}
+
+#footer-menu a {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+#footer-menu a:hover {
+    color: #f20000;
+}
+
+
+/*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+**************************************************               LOGIN                *****************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************
+*****************************************************************************************************************************************************/
+
+
+.login-container {
+    width: 100%;
+    margin: 5% auto 0 auto;
+}
+
+/* Full-width input fields */
+.login-container input[type=text],
+.login-container input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 2px 0 15px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button.login-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button.login-button:hover {
+    opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+img.avatar {
+    width: 20%;
+    border-radius: 50%;
+}
+
+.login-container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: hidden;
+    /* Enable scroll if needed */
+    /*                    background-color: rgb(0,0,0);  Fallback color */
+    background-color: rgba(0, 0, 0, 0.8);
+    /*Black w/ opacity */
+    padding-top: 20px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+/*    background-image: linear-gradient(red, yellow);*/
+    margin: 5% auto 15% auto;
+    /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 40%;
+    /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+
+    .cancelbtn {
+        width: 100%;
+    }
+}
+
+/***************************************************************************************************************************************
+
+
+
+                                        search  DONOR LIST (HOSPITAL OR USER)
+
+
+****************************************************************************************************************************************/
+.hospital-donor-list {
+    display: flex;
+    flex-wrap: wrap;
+    direction: column;
+    justify-content: center;
+}
+
+.card {
+    overflow: hidden;
+    margin: 5px;
+    width: 200px;
+    height: auto;
+}
+
+.card > .image-card {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.card > .image-card:hover {
+/*    transform: scale(1.2);*/
+}
+
+#search-container {
+    padding-top: 9%;
+/*    background-image: repeating-linear-gradient(red, blue);*/
+    border-radius: 10px;
+    width: 40%;
+/*    transition: 1s ease;*/
+}
+
+#search-container:hover {
+
+/*    transform: scale(1.1);*/
+}
+
+.form-control.search-options {
+    color: gray;
+    border-color: gray;
+    width: 100%;
+}
+
+.form-control.search-options:focus {
+    background-color: #A2A1A1;
+    color: rebeccapurple;
+    border-color: gray;
+    width: 100%;
+}
+
+.form-group{
+    margin-bottom: 0;
+}
+label{
+    margin-right:5px; 
+}
+/*************************************************************************************************************
+
+                                        REGISTRATION
+
+**************************************************************************************************************/
+.form-element{
+    background-color: rgba(0,0,0,.2);
+    width: 300px;
+/*    display: inline-block;*/
+}
+/*************************************************************************
+                hospital
+**************************************************************************/
+.edit-hosp-database-container{
+    padding-top: 10%;
+}

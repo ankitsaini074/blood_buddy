@@ -1,0 +1,73 @@
+<% include partials/header %>
+
+<a href="/editHospDatabase">Edit Profile</a><br>
+<form action="/hospDatabaseForm" id ="form" method="POST" >
+    <div class="form-group">
+<label>
+    A1+<br>
+    <input type ="text" class="form-control" placeholder =<%=data.A1 %>  readonly>
+</label>
+<label>
+    A1-<br>
+    <input type ="text" class="form-control" placeholder =<%=data.A1_ %> readonly>
+</label>
+<label>
+        A2+<br>
+        <input type ="text" class="form-control" placeholder =<%=data.A2 %> readonly>
+    </label>
+    <label>
+        A2-<br>
+        <input type ="text" class="form-control" placeholder =<%=data.A2_ %> readonly>
+</label>
+<label>
+        B+<br>
+        <input type ="text" class="form-control" placeholder =<%=data.B  %> readonly>
+    </label>
+    <label>
+        B-<br>
+        <input type ="text" class="form-control" placeholder =<%=data.B_ %> readonly>
+    </label>
+ <label>
+            A1B+<br>
+            <input type ="text" class="form-control" placeholder =<%=data.A1B %> readonly>
+        </label>
+        <label>
+            A1B-<br>
+            <input type ="text" class="form-control" placeholder =<%=data.A1B_ %> readonly>
+</label>
+<label>
+        A2B<br>
+        <input type ="text" class="form-control" placeholder =<%=data.A2B %> readonly>
+    </label>
+    <label>
+        A2B-<br>
+        <input type ="text" class="form-control" placeholder =<%=data.A2B_ %> readonly>
+    </label>
+    <label>
+            AB+<br>
+            <input type ="text" class="form-control" placeholder =<%=data.AB %> readonly>
+        </label>
+        <label>
+            AB-<br>
+            <input type ="text" class="form-control" placeholder =<%=data.AB_ %> readonly>
+    </label>
+    <label>
+            O+<br>
+            <input type ="text" class="form-control" placeholder =<%=data.O %> readonly>
+        </label>
+        <label>
+            O-<br>
+            <input type ="text" class="form-control" placeholder =<%=data.O_ %> readonly>
+        </label>
+     <label>
+                A+<br>
+                <input type ="text" class="form-control" placeholder =<%=data.A %> readonly>
+            </label>
+            <label>
+                A-<br>
+                <input type ="text" class="form-control" placeholder =<%=data.A_ %> readonly>
+    </label>
+    </div>
+    </form>
+
+<% include partials/footer %>
