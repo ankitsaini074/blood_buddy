@@ -102,7 +102,10 @@ async function connectDB() {
         console.log('🔗 Connecting to MongoDB...', mongoUri);
         await mongoose.connect(mongoUri, {
             serverSelectionTimeoutMS: 30000,
-            tls: true
+            tls: true,
+            tlsAllowInvalidCertificates: false,
+            // Force port 443 instead of 27017
+            monitorCommands: true,
         });
 
         console.log('✅ MongoDB Connected Successfully');
