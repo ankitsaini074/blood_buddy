@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Blood Inventory – Admin – Blood Buddy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#af101a',
+                        'on-primary': '#ffffff',
+                        'secondary': '#006a6a',
+                        'on-secondary': '#ffffff',
+                        'tertiary': '#005f7b',
+                        'surface-container-low': '#f3f3f6',
+                        'surface-container': '#eeeef0',
+                        'on-surface': '#1a1c1e',
+                        'on-surface-variant': '#5b403d',
+                        'outline-variant': '#e4beba',
+                        'inverse-surface': '#2f3133',
+                        'inverse-on-surface': '#f0f0f3',
+                        'error': '#ba1a1a',
+                    },
+                    fontFamily: { sans: ['Public Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Public Sans', sans-serif; background-color: #f9f9fc; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .stock-low  { background-color: #fff1f1; color: #af101a; }
+        .stock-mid  { background-color: #fffbea; color: #92600a; }
+        .stock-high { background-color: #f0faf4; color: #1a7a3e; }
+        .edit-modal-overlay { transition: opacity 0.2s; }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+<!-- Navbar -->
+<nav class="bg-inverse-surface text-inverse-on-surface sticky top-0 z-50 shadow-lg">
+    <div class="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-white text-lg filled">admin_panel_settings</span>
+                </div>
+                <div>
+                    <span class="font-bold text-lg">Blood Buddy</span>
+                    <span class="text-xs text-inverse-on-surface/60 ml-2">Admin Panel</span>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center gap-1">
+                <a href="/admin" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-inverse-on-surface/70 hover:bg-white/10 hover:text-inverse-on-surface transition-colors">
+                    <span class="material-symbols-outlined text-base">dashboard</span> Dashboard
+                </a>
+                <a href="/admin/inventory" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm bg-white/15 text-inverse-on-surface font-medium transition-colors">
+                    <span class="material-symbols-outlined text-base filled">water_drop</span> Inventory
+                </a>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="/" target="_blank" class="flex items-center gap-1.5 text-sm text-inverse-on-surface/70 hover:text-inverse-on-surface transition-colors">
+                <span class="material-symbols-outlined text-base">open_in_new</span>
+                <span class="hidden md:inline">View Site</span>
+            </a>
+            <form action="/admin/logout" method="POST">
+                <button type="submit" class="flex items-center gap-1.5 text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors">
+                    <span class="material-symbols-outlined text-base">logout</span>
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-[1400px] mx-auto px-6 py-8">
+
+    <!-- Flash messages -->
+    <% if (success && success.length > 0) { %>
+        <div class="flex items-center gap-2 bg-green-50 border border-green-200 text-green-800 rounded-xl px-4 py-3 mb-6 text-sm">
+            <span class="material-symbols-outlined text-green-600 text-base">check_circle</span>
+            <%= success %>
+        </div>
+    <% } %>
+    <% if (error && error.length > 0) { %>
+        <div class="flex items-center gap-2 bg-red-50 border border-red-200 text-error rounded-xl px-4 py-3 mb-6 text-sm">
+            <span class="material-symbols-outlined text-base">error</span>
+            <%= error %>
+        </div>
+    <% } %>
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-2xl font-bold text-on-surface">Blood Inventory</h1>
+            <p class="text-sm text-on-surface-variant mt-1">Live stock levels across all registered hospitals</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-on-surface-variant bg-white border border-outline-variant rounded-lg px-3 py-2">
+            <span class="material-symbols-outlined text-sm">info</span>
+            Units are in bags / pints
+        </div>
+    </div>
+
+    <!-- System-wide totals -->
+    <div class="mb-8">
+        <h2 class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mb-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base text-primary">bar_chart</span>
+            System-wide Totals
+        </h2>
+        <div class="grid grid-cols-4 sm:grid-cols-8 gap-2">
+            <% BLOOD_FIELDS.forEach(function(f) {
+                const total = totalByGroup[f.label] || 0;
+                let cls = total === 0 ? 'stock-low' : (total < 5 ? 'stock-mid' : 'stock-high');
+            %>
+            <div class="<%= cls %> rounded-xl p-3 text-center">
+                <p class="text-xs font-bold mb-1"><%= f.label %></p>
+                <p class="text-xl font-extrabold"><%= total %></p>
+                <p class="text-[10px] opacity-70 mt-0.5">units</p>
+            </div>
+            <% }) %>
+        </div>
+        <!-- Legend -->
+        <div class="flex items-center gap-4 mt-3 text-xs text-on-surface-variant">
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-200 inline-block"></span> 0 units (critical)</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-yellow-200 inline-block"></span> 1–4 units (low)</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-green-200 inline-block"></span> 5+ units (adequate)</span>
+        </div>
+    </div>
+
+    <!-- Per-hospital inventory -->
+    <% if (inventoryRecords.length === 0) { %>
+        <div class="bg-white rounded-2xl border border-outline-variant shadow-sm p-16 text-center text-on-surface-variant">
+            <span class="material-symbols-outlined text-5xl mb-3 block opacity-30">local_hospital</span>
+            <p class="text-sm font-medium">No hospital inventory records found.</p>
+            <p class="text-xs mt-1">Inventory is created automatically when a hospital registers.</p>
+        </div>
+    <% } else { %>
+        <h2 class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mb-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base text-secondary">local_hospital</span>
+            Per-Hospital Breakdown (<%= inventoryRecords.length %>)
+        </h2>
+        <div class="space-y-4">
+            <% inventoryRecords.forEach(function(rec) {
+                const hosp = hospitalMap[rec.name];
+                const totalUnits = BLOOD_FIELDS.reduce(function(sum, f) {
+                    const v = parseInt(rec[f.key], 10);
+                    return sum + (isNaN(v) ? 0 : v);
+                }, 0);
+                const criticalGroups = BLOOD_FIELDS.filter(function(f) {
+                    return parseInt(rec[f.key], 10) === 0 || isNaN(parseInt(rec[f.key], 10));
+                }).length;
+            %>
+            <div class="bg-white rounded-2xl border border-outline-variant shadow-sm overflow-hidden">
+                <!-- Hospital header -->
+                <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-secondary text-lg">local_hospital</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-on-surface"><%= hosp ? hosp.name : rec.name %></p>
+                            <p class="text-xs text-on-surface-variant">
+                                <% if (hosp) { %><%= hosp.city || '' %><% if (hosp.city && hosp.contactNumber) { %> · <% } %><%= hosp.contactNumber || '' %><% } else { %>Username: <%= rec.name %><% } %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <p class="text-sm font-bold text-on-surface"><%= totalUnits %> total units</p>
+                            <% if (criticalGroups > 0) { %>
+                                <p class="text-xs text-error font-medium"><%= criticalGroups %> group<%= criticalGroups !== 1 ? 's' : '' %> at zero</p>
+                            <% } else { %>
+                                <p class="text-xs text-green-600 font-medium">All groups stocked</p>
+                            <% } %>
+                        </div>
+                        <button onclick="openEditModal('<%= rec.name %>')"
+                            class="flex items-center gap-1.5 px-4 py-2 bg-secondary text-white rounded-lg text-xs font-medium hover:opacity-90 transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-sm">edit</span>
+                            Edit Stock
+                        </button>
+                    </div>
+                </div>
+                <!-- Blood group grid -->
+                <div class="px-6 py-4 grid grid-cols-4 sm:grid-cols-8 gap-2">
+                    <% BLOOD_FIELDS.forEach(function(f) {
+                        const val = parseInt(rec[f.key], 10);
+                        const display = isNaN(val) ? 0 : val;
+                        let cls = display === 0 ? 'stock-low' : (display < 5 ? 'stock-mid' : 'stock-high');
+                    %>
+                    <div class="<%= cls %> rounded-lg p-2.5 text-center">
+                        <p class="text-[11px] font-bold mb-0.5"><%= f.label %></p>
+                        <p class="text-lg font-extrabold leading-none"><%= display %></p>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<!-- Edit Stock Modal -->
+<div id="edit-modal" class="fixed inset-0 z-[100] hidden">
+    <div class="edit-modal-overlay absolute inset-0 bg-black/50" onclick="closeEditModal()"></div>
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl relative z-10 overflow-hidden">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant">
+                <div>
+                    <h3 class="font-semibold text-on-surface">Edit Blood Stock</h3>
+                    <p class="text-xs text-on-surface-variant" id="modal-hosp-label"></p>
+                </div>
+                <button onclick="closeEditModal()" class="p-1.5 rounded-lg hover:bg-surface-container-low transition-colors">
+                    <span class="material-symbols-outlined text-on-surface-variant">close</span>
+                </button>
+            </div>
+            <form id="edit-form" method="POST" class="p-6">
+                <p class="text-xs text-on-surface-variant mb-4">Enter the number of available units for each blood group.</p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="modal-fields"></div>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeEditModal()" class="flex-1 h-10 bg-surface-container-low text-on-surface rounded-lg text-sm font-medium hover:bg-surface-container transition">Cancel</button>
+                    <button type="submit" class="flex-1 h-10 bg-secondary text-white rounded-lg text-sm font-medium hover:opacity-90 transition shadow-sm">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+const BLOOD_FIELDS = <%- JSON.stringify(BLOOD_FIELDS) %>;
+const inventoryRecords = <%- JSON.stringify(inventoryRecords) %>;
+
+function openEditModal(name) {
+    const rec = inventoryRecords.find(r => r.name === name);
+    if (!rec) return;
+
+    document.getElementById('modal-hosp-label').textContent = 'Hospital: ' + name;
+    document.getElementById('edit-form').action = '/admin/inventory/' + encodeURIComponent(name) + '/update';
+
+    const container = document.getElementById('modal-fields');
+    container.innerHTML = '';
+    BLOOD_FIELDS.forEach(function(f) {
+        const val = parseInt(rec[f.key], 10);
+        const display = isNaN(val) ? 0 : val;
+        const div = document.createElement('div');
+        div.className = 'space-y-1';
+        div.innerHTML = `
+            <label class="block text-xs font-semibold text-on-surface-variant">${f.label}</label>
+            <input type="number" name="${f.key}" value="${display}" min="0"
+                class="w-full h-10 px-3 bg-surface-container-low rounded-lg text-sm border border-outline-variant focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary/20 transition">
+        `;
+        container.appendChild(div);
+    });
+
+    document.getElementById('edit-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeEditModal() {
+    document.getElementById('edit-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeEditModal();
+});
+</script>
+</body>
+</html>
