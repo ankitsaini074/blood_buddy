@@ -65,8 +65,7 @@ require('https').get('https://api.ipify.org', res => {
 // ===================== 🔥 MONGODB CONNECTION (FIXED) =====================
 
 // ✅ NON-SRV connection string (NO DNS issues)
-const mongoUri = "mongodb://admin:admin123@ac-dtgapoa-shard-00-00.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-01.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-02.h884z07.mongodb.net:27017/dbNew?ssl=true&replicaSet=atlas-msf33r-shard-0&authSource=admin&retryWrites=true&w=majority&tls=true";
-
+const mongoUri = "mongodb+srv://admin:dLWfO4KzxF7vOjxm@cluster0.h884z07.mongodb.net/dbNew?retryWrites=true&w=majority";
 // Mongoose config
 mongoose.set('strictQuery', false);
 
