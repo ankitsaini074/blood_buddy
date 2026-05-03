@@ -65,7 +65,7 @@ require('https').get('https://api.ipify.org', res => {
 // ===================== 🔥 MONGODB CONNECTION (FIXED) =====================
 
 // ✅ Use environment variable for MongoDB URI
-const mongoUri = process.env.MONGODB_URI || "mongodb+srv://admin:dLWfO4KzxF7vOjxm@cluster0.h884z07.mongodb.net/dbNew?retryWrites=true&w=majority";
+const mongoUri = process.env.MONGODB_URI;
 // Mongoose config
 mongoose.set('strictQuery', false);
 
@@ -99,6 +99,7 @@ map.set("donorcount", 0);
 // Connect DB
 async function connectDB() {
     try {
+        console.log('🔗 Connecting to MongoDB...', mongoUri);
         await mongoose.connect(mongoUri, {
             serverSelectionTimeoutMS: 30000,
             tls: true
@@ -111,7 +112,6 @@ async function connectDB() {
 
     } catch (err) {
         console.error('❌ MongoDB Connection Error:', err);
-        process.exit(1);
     }
 }
 
