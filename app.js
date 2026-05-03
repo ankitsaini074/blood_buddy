@@ -30,7 +30,7 @@ var authRoutes    = require("./routes/auth"),
 const port=process.env.PORT || 8080;
  
 //Connecting database
-const mongoUri = "mongodb://admin:admin123@ac-dtgapoa-shard-00-00.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-01.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-02.h884z07.mongodb.net:27017/?ssl=true&replicaSet=atlas-msf33r-shard-0&authSource=admin&retryWrites=true&w=majority";
+const mongoUri = "mongodb://admin:admin123@ac-dtgapoa-shard-00-00.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-01.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-02.h884z07.mongodb.net:27017/?ssl=true&tls=true&replicaSet=atlas-msf33r-shard-0&authSource=admin&retryWrites=true&w=majority";
 mongoose.connect(mongoUri, {
     dbName: 'dbNew',
     serverSelectionTimeoutMS: 30000,
