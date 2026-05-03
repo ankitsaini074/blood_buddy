@@ -34,9 +34,86 @@
                 </div>
             </div>
             <div class="flex-1 relative">
-                <div class="absolute inset-0 bg-primary/5 rounded-full blur-3xl -z-10"></div>
-                <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
-                    <img src="/img/image.jpg" alt="Medical professional with blood donation" class="w-full h-auto object-cover">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl -z-10"></div>
+                <!-- Hero Illustration -->
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-white to-surface-container border border-outline-variant">
+                    <svg viewBox="0 0 500 400" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Background -->
+                        <defs>
+                            <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#fff5f5;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#e0f2fe;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.15"/>
+                            </filter>
+                        </defs>
+                        <rect width="500" height="400" fill="url(#bgGrad)"/>
+
+                        <!-- Decorative circles -->
+                        <circle cx="450" cy="50" r="80" fill="#fee2e2" opacity="0.6"/>
+                        <circle cx="50" cy="350" r="60" fill="#e0f2fe" opacity="0.6"/>
+
+                        <!-- Medical person silhouette -->
+                        <g filter="url(#shadow)">
+                            <!-- Body -->
+                            <ellipse cx="250" cy="320" rx="90" ry="25" fill="#1e293b" opacity="0.1"/>
+                            <path d="M200 200 Q200 280 250 300 Q300 280 300 200 L300 180 L200 180 Z" fill="#3b82f6"/>
+                            <path d="M200 200 Q180 240 170 280 L330 280 Q320 240 300 200 Z" fill="#2563eb"/>
+
+                            <!-- Head -->
+                            <circle cx="250" cy="160" r="40" fill="#fbbf24"/>
+                            <circle cx="250" cy="160" r="38" fill="#fcd34d"/>
+
+                            <!-- Medical cap -->
+                            <ellipse cx="250" cy="135" rx="35" ry="8" fill="#ffffff"/>
+                            <rect x="215" y="115" width="70" height="20" rx="3" fill="#ffffff"/>
+
+                            <!-- Medical cross on cap -->
+                            <rect x="244" y="108" width="12" height="12" fill="#ef4444" rx="1"/>
+
+                            <!-- Stethoscope -->
+                            <path d="M230 180 Q210 220 220 260" stroke="#64748b" stroke-width="3" fill="none"/>
+                            <circle cx="220" cy="260" r="8" fill="#94a3b8"/>
+                            <path d="M270 180 Q290 220 280 260" stroke="#64748b" stroke-width="3" fill="none"/>
+
+                            <!-- Blood bag -->
+                            <g transform="translate(320, 150)">
+                                <rect x="0" y="20" width="50" height="70" rx="5" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                                <path d="M20 20 L20 5 L30 5 L30 20" fill="none" stroke="#ef4444" stroke-width="3"/>
+                                <!-- Blood droplet icon -->
+                                <path d="M25 45 Q25 55 20 60 Q15 55 15 45 Q20 40 25 45" fill="#ef4444"/>
+                                <text x="25" y="75" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="bold">O+</text>
+                            </g>
+
+                            <!-- Heart with pulse -->
+                            <g transform="translate(130, 140)">
+                                <path d="M25 45 Q25 55 20 60 Q15 55 15 45 Q20 40 25 45" fill="#ef4444" transform="scale(2) translate(-10, -15)"/>
+                                <!-- Heart shape -->
+                                <path d="M25 40 C15 25 0 25 0 40 C0 55 25 70 25 70 C25 70 50 55 50 40 C50 25 35 25 25 40" fill="url(#heartGrad)" transform="scale(0.8) translate(6, 10)"/>
+                            </g>
+
+                            <!-- Pulse line -->
+                            <polyline points="100,100 130,100 140,85 150,115 160,70 170,130 180,100 220,100" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+
+                        <!-- Floating elements -->
+                        <g>
+                            <circle cx="380" cy="280" r="15" fill="#ef4444" opacity="0.2">
+                                <animate attributeName="cy" values="280;270;280" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="120" cy="120" r="10" fill="#3b82f6" opacity="0.2">
+                                <animate attributeName="cy" values="120;110;120" dur="2.5s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="400" cy="180" r="8" fill="#fbbf24" opacity="0.3">
+                                <animate attributeName="cy" values="180;170;180" dur="3s" repeatCount="indefinite"/>
+                            </circle>
+                        </g>
+                    </svg>
                 </div>
                 <!-- Stats Floating Card -->
                 <div class="absolute -bottom-4 -left-4 md:-bottom-8 md:-left-8 bg-white p-4 md:p-6 rounded-xl shadow-xl flex items-center gap-3 md:gap-4">
