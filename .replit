@@ -37,3 +37,8 @@ externalPort = 80
 [deployment]
 deploymentTarget = "autoscale"
 run = ["node", "app.js"]
+
+[userenv]
+
+[userenv.shared]
+ADMIN_PASSWORD = "bloodbuddy_admin_2024"

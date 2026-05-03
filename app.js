@@ -29,6 +29,7 @@ const searchRoutes = require("./routes/search");
 const searchHospRoutes = require("./routes/searchHospital");
 const editHospRoutes = require("./routes/editHospital");
 const hospQuery = require("./routes/hospitalquery");
+const adminRoutes = require("./routes/admin");
 
 // ===================== CONFIG =====================
 const port = process.env.PORT || 5000;
@@ -116,6 +117,7 @@ connectDB();
 
 // ===================== ROUTES =====================
 
+app.use("/admin", adminRoutes);
 app.use("/auth", authRoutes);
 app.use("/search", searchRoutes);
 app.use("/edit", editRoutes);
