@@ -99,20 +99,16 @@ map.set("donorcount", 0);
 // Connect DB
 async function connectDB() {
     try {
-        console.log('🔗 Connecting to MongoDB...', mongoUri);
+        console.log('🔗 Connecting to MongoDB...');
         await mongoose.connect(mongoUri, {
             serverSelectionTimeoutMS: 30000,
             tls: true,
-            tlsAllowInvalidCertificates: false,
-            // Force port 443 instead of 27017
-            monitorCommands: true,
+            tlsAllowInvalidCertificates: false,   // keep false for security; change to true only for testing
+            directConnection: true,                // 👈 forces single host, avoids replica set discovery
+            retryWrites: false,                   // optional, simplifies retry logic
         });
-
         console.log('✅ MongoDB Connected Successfully');
-
-        // Run after DB connection
         await countDonors(map);
-
     } catch (err) {
         console.error('❌ MongoDB Connection Error:', err);
     }
