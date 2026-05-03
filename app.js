@@ -48,7 +48,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/views"));
 
 app.use(session({
-    secret: 'asecretmessage',
+    secret: process.env.SESSION_SECRET || 'asecretmessage',
     resave: false,
     saveUninitialized: false
 }));
