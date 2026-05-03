@@ -30,7 +30,19 @@ var authRoutes    = require("./routes/auth"),
 const port=process.env.PORT || 8080;
  
 //Connecting database
- mongoose.connect('mongodb+srv://admin:admin123@cluster0.57b0zee.mongodb.net/ankitsaini257?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://admin:admin123@cluster0.57b0zee.mongodb.net/ankitsaini257?retryWrites=true&w=majority', {
+    serverSelectionTimeoutMS: 30000,
+    socketTimeoutMS: 45000,
+    connectTimeoutMS: 30000
+})
+    .then(async () => {
+        console.log('MongoDB Connected Successfully');
+        // Initialize counts after DB connection is established
+        await countDonors(map);
+    })
+    .catch(err => {
+        console.error('MongoDB Connection Error:', err.message);
+    });
 //mongoose.connect('mongodb://localhost:27017/blood', {useNewUrlParser: true});
 
 
@@ -89,7 +101,7 @@ map.set("A+",0);
 map.set("A-",0);
 map.set("hospcount",0);
 map.set("donorcount",0);
-countDonors(map);
+// countDonors(map) - Now called in MongoDB connection .then() block
 
 
 //ROUTES

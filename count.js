@@ -7,7 +7,11 @@ const donor = require('./models/donor.js'),
 
 async function countDonors(map){
     try {
-        const donors = await donor.find({activeStatus:true});
+        // Use lean() for better performance and add query timeout
+        const donors = await donor.find({activeStatus: true})
+            .lean()
+            .maxTimeMS(30000); // 30 second timeout
+
         donors.forEach((element)=>{
             if(element.activeStatus==true){
                 const bloodGroupKey = element.bloodGroup;
@@ -16,13 +20,18 @@ async function countDonors(map){
             }
         });
 
-        const hospitals = await hospital.find({});
+        const hospitals = await hospital.find({})
+            .lean()
+            .maxTimeMS(30000); // 30 second timeout
+
         hospitals.forEach((element)=>{
             if(element.activeStatus==true){
                 const currentCount = map.get('hospcount') || 0;
                 map.set('hospcount', currentCount + 1);
             }
         });
+
+        console.log('Counts updated successfully - Donors:', donors.length, 'Hospitals:', hospitals.length);
 
         return {
             donorCount: donors.length,
