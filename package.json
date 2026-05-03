@@ -26,14 +26,15 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": " node app.js",
+    "start": "node app.js",
+    "build": "npx tailwindcss -i ./views/css/input.css -o ./public/css/style.css",
     "build-css": "npx tailwindcss -i ./views/css/input.css -o ./public/css/style.css --watch"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.0"
   },
   "engines": {
-    "node": "18.13.0"
+    "node": "24.x"
   },
   "author": "",
   "license": "ISC",
