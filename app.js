@@ -64,8 +64,8 @@ require('https').get('https://api.ipify.org', res => {
 
 // ===================== 🔥 MONGODB CONNECTION (FIXED) =====================
 
-// ✅ NON-SRV connection string (NO DNS issues)
-const mongoUri = "mongodb+srv://admin:dLWfO4KzxF7vOjxm@cluster0.h884z07.mongodb.net/dbNew?retryWrites=true&w=majority";
+// ✅ Use environment variable for MongoDB URI
+const mongoUri = process.env.MONGODB_URI || "mongodb+srv://admin:dLWfO4KzxF7vOjxm@cluster0.h884z07.mongodb.net/dbNew?retryWrites=true&w=majority";
 // Mongoose config
 mongoose.set('strictQuery', false);
 
