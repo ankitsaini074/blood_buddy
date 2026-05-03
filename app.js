@@ -58,6 +58,10 @@ app.use(function (req, res, next) {
     next();
 });
 
+require('https').get('https://api.ipify.org', res => {
+  res.on('data', ip => console.log("Render IP:", ip.toString()));
+});
+
 // ===================== 🔥 MONGODB CONNECTION (FIXED) =====================
 
 // ✅ NON-SRV connection string (NO DNS issues)
