@@ -30,7 +30,7 @@ var authRoutes    = require("./routes/auth"),
 const port=process.env.PORT || 8080;
  
 //Connecting database
-const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://admin:admin123@cluster0.57b0zee.mongodb.net/ankitsaini257?retryWrites=true&w=majority';
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://admin:admin123@cluster0.h884z07.mongodb.net/';
 
 mongoose.connect(mongoUri, {
     serverSelectionTimeoutMS: 30000,
