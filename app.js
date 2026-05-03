@@ -61,8 +61,7 @@ app.use(function (req, res, next) {
 // ===================== 🔥 MONGODB CONNECTION (FIXED) =====================
 
 // ✅ NON-SRV connection string (NO DNS issues)
-const mongoUri = "mongodb://admin:admin123@ac-dtgapoa-shard-00-00.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-01.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-02.h884z07.mongodb.net:27017/dbNew?ssl=true&replicaSet=atlas-msf33r-shard-0&authSource=admin&retryWrites=true&w=majority";
-
+const mongoUri = "mongodb://admin:admin123@ac-dtgapoa-shard-00-00.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-01.h884z07.mongodb.net:27017,ac-dtgapoa-shard-00-02.h884z07.mongodb.net:27017/dbNew?ssl=true&replicaSet=atlas-msf33r-shard-0&authSource=admin&retryWrites=true&w=majority&tls=true";
 // Mongoose config
 mongoose.set('strictQuery', false);
 
@@ -97,7 +96,9 @@ map.set("donorcount", 0);
 async function connectDB() {
     try {
         await mongoose.connect(mongoUri, {
-            serverSelectionTimeoutMS: 30000
+            serverSelectionTimeoutMS: 30000,
+            tls: true,
+            tlsAllowInvalidCertificates: false
         });
 
         console.log('✅ MongoDB Connected Successfully');
