@@ -3,6 +3,7 @@ const router = express.Router();
 const donor = require('../models/donor');
 const hospital = require('../models/hospital');
 const hospDatabase = require('../models/hospDatabase');
+const Request = require('../models/request');
 
 function isAdminLoggedIn(req, res, next) {
     if (req.session && req.session.isAdmin) return next();
@@ -34,6 +35,7 @@ router.get('/', isAdminLoggedIn, async (req, res) => {
     try {
         const donors = await donor.find({}).lean();
         const hospitals = await hospital.find({}).lean();
+        const requests = await Request.find({}).sort({ createdAt: -1 }).lean();
 
         const bloodGroupCounts = {};
         donors.forEach(d => {
@@ -55,6 +57,7 @@ router.get('/', isAdminLoggedIn, async (req, res) => {
         res.render('admin', {
             donors,
             hospitals,
+            requests,
             bloodGroupCounts,
             topCities,
             activeDonors,
@@ -137,6 +140,33 @@ router.get('/inventory', isAdminLoggedIn, async (req, res) => {
         console.error(err);
         res.status(500).send('Server error');
     }
+});
+
+router.post('/requests/:id/status', isAdminLoggedIn, async (req, res) => {
+    try {
+        const { status } = req.body;
+        if (!['open', 'fulfilled', 'closed'].includes(status)) {
+            req.flash('error', 'Invalid status.');
+            return res.redirect('/admin');
+        }
+        await Request.findByIdAndUpdate(req.params.id, { status });
+        req.flash('success', `Request marked as ${status}.`);
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Failed to update request.');
+    }
+    res.redirect('/admin');
+});
+
+router.post('/requests/:id/delete', isAdminLoggedIn, async (req, res) => {
+    try {
+        await Request.findByIdAndDelete(req.params.id);
+        req.flash('success', 'Request deleted.');
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Failed to delete request.');
+    }
+    res.redirect('/admin');
 });
 
 router.post('/inventory/:name/update', isAdminLoggedIn, async (req, res) => {

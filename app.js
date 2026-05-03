@@ -30,6 +30,8 @@ const searchHospRoutes = require("./routes/searchHospital");
 const editHospRoutes = require("./routes/editHospital");
 const hospQuery = require("./routes/hospitalquery");
 const adminRoutes = require("./routes/admin");
+const requestRoutes = require("./routes/requests");
+const Request = require('./models/request');
 
 // ===================== CONFIG =====================
 const port = process.env.PORT || 5000;
@@ -118,6 +120,7 @@ connectDB();
 // ===================== ROUTES =====================
 
 app.use("/admin", adminRoutes);
+app.use("/requests", requestRoutes);
 app.use("/auth", authRoutes);
 app.use("/search", searchRoutes);
 app.use("/edit", editRoutes);
@@ -126,9 +129,20 @@ app.use("/searchHospital", searchHospRoutes);
 app.use("/editHospital", editHospRoutes);
 
 // Pages
-app.get('/', (req, res) => res.render('home'));
-app.get('/home', (req, res) => res.render('home'));
-app.get('/tempHome', (req, res) => res.render('home'));
+async function renderHome(req, res) {
+    try {
+        const urgentRequests = await Request.find({
+            status: 'open',
+            urgency: { $in: ['critical', 'urgent'] }
+        }).sort({ urgency: 1, createdAt: -1 }).limit(5).lean();
+        res.render('home', { urgentRequests });
+    } catch (err) {
+        res.render('home', { urgentRequests: [] });
+    }
+}
+app.get('/', renderHome);
+app.get('/home', renderHome);
+app.get('/tempHome', renderHome);
 
 app.get('/profile', middleware.isLoggedIn, (req, res) => {
     res.render('profile', { donor: req.user });
