@@ -103,9 +103,7 @@ async function connectDB() {
         await mongoose.connect(mongoUri, {
             serverSelectionTimeoutMS: 30000,
             tls: true,
-            tlsAllowInvalidCertificates: false,   // keep false for security; change to true only for testing
-            directConnection: true,                // 👈 forces single host, avoids replica set discovery
-            retryWrites: false,                   // optional, simplifies retry logic
+            tlsAllowInvalidCertificates: false,
         });
         console.log('✅ MongoDB Connected Successfully');
         await countDonors(map);
