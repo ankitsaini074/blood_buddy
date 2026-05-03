@@ -239,7 +239,23 @@
                 </div>
                 <div class="text-center">
                     <p class="text-[40px] font-extrabold text-secondary">
-                        <%= (parseInt(data.A||0) + parseInt(data.A_||0) + parseInt(data.B||0) + parseInt(data.B_||0) + parseInt(data.AB||0) + parseInt(data.AB_||0) + parseInt(data.O||0) + parseInt(data.O_||0) + parseInt(data.A1||0) + parseInt(data.A1_||0) + parseInt(data.A2||0) + parseInt(data.A2_||0) + parseInt(data.A1B||0) + parseInt(data.A1B_||0) + parseInt(data.A2B||0) + parseInt(data.A2B_||0)) %>
+                        <% const sum = (parseInt(data.A || '0') || 0) +
+                           (parseInt(data.A_ || '0') || 0) +
+                           (parseInt(data.B || '0') || 0) +
+                           (parseInt(data.B_ || '0') || 0) +
+                           (parseInt(data.AB || '0') || 0) +
+                           (parseInt(data.AB_ || '0') || 0) +
+                           (parseInt(data.O || '0') || 0) +
+                           (parseInt(data.O_ || '0') || 0) +
+                           (parseInt(data.A1 || '0') || 0) +
+                           (parseInt(data.A1_ || '0') || 0) +
+                           (parseInt(data.A2 || '0') || 0) +
+                           (parseInt(data.A2_ || '0') || 0) +
+                           (parseInt(data.A1B || '0') || 0) +
+                           (parseInt(data.A1B_ || '0') || 0) +
+                           (parseInt(data.A2B || '0') || 0) +
+                           (parseInt(data.A2B_ || '0') || 0); %>
+                        <%= sum %>
                     </p>
                     <p class="text-caption text-on-surface-variant">units available</p>
                 </div>

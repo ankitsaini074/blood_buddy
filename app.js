@@ -172,6 +172,52 @@ app.get('/profileHospital', middleware.isLoggedIn, async (req, res) => {
     }
 });
 
+// Hospital Database Routes
+app.get('/hospDatabase', middleware.isLoggedIn, async (req, res) => {
+    try {
+        const username = req.user.local && req.user.local.username;
+        let data = await hospDatabase.findOne({ name: username }).lean();
+        if (!data) {
+            // Initialize with zeros if no record exists
+            data = {
+                A1: '0', A1_: '0', A2: '0', A2_: '0',
+                A: '0', A_: '0', B: '0', B_: '0',
+                AB: '0', AB_: '0', O: '0', O_: '0',
+                A1B: '0', A1B_: '0', A2B: '0', A2B_: '0'
+            };
+        }
+        res.render('hospDatabase', { data });
+    } catch (err) {
+        console.error(err);
+        res.render('hospDatabase', { data: {} });
+    }
+});
+
+app.get('/editHospDatabase', middleware.isLoggedIn, async (req, res) => {
+    try {
+        const username = req.user.local && req.user.local.username;
+        let data = await hospDatabase.findOne({ name: username }).lean();
+        if (!data) {
+            // Initialize with zeros if no record exists
+            data = {
+                A1: '0', A1_: '0', A2: '0', A2_: '0',
+                A: '0', A_: '0', B: '0', B_: '0',
+                AB: '0', AB_: '0', O: '0', O_: '0',
+                A1B: '0', A1B_: '0', A2B: '0', A2B_: '0'
+            };
+        }
+        res.render('editHospDatabase', { data });
+    } catch (err) {
+        console.error(err);
+        res.render('editHospDatabase', { data: {} });
+    }
+});
+
+app.post('/hospDatabaseForm', middleware.isLoggedIn, middleware.editHospData, (req, res) => {
+    req.flash('success', 'Blood inventory updated successfully!');
+    res.redirect('/hospDatabase');
+});
+
 // ===================== API =====================
 
 app.post("/home/usernameTest", async (req, res) => {

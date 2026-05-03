@@ -12,24 +12,31 @@ module.exports =
 
      editHospData: async function(req,res,next){
         try {
-            const data = await hospDatabase.findOne({"name": req.user.local.username});
+            let data = await hospDatabase.findOne({"name": req.user.local.username});
             console.log(req.user.local.username);
-            data.A2 =req.body.A2,
-        data.A2_=req.body.A2_,
-        data.B =req.body.B,
-        data.B_ =req.body.B_,
-        data.A1 =req.body.A1,
-        data.A1B=req.body.A1B,
-        data.A1_=req.body.A1_,
-        data.A1B_=req.body.A1B_,
-        data.A2B=req.body.A2B,
-        data.A2B_=req.body.A2B_,
-        data.AB =req.body.AB,
-        data.AB_=req.body.AB_,
-        data.O =req.body.O,
-        data.O_ =req.body.O_,
-        data.A=req.body.A,
-        data.A_ =req.body.A_;
+
+            // Create new record if doesn't exist
+            if (!data) {
+                data = new hospDatabase();
+                data.name = req.user.local.username;
+            }
+
+            data.A2 = req.body.A2;
+            data.A2_ = req.body.A2_;
+            data.B = req.body.B;
+            data.B_ = req.body.B_;
+            data.A1 = req.body.A1;
+            data.A1B = req.body.A1B;
+            data.A1_ = req.body.A1_;
+            data.A1B_ = req.body.A1B_;
+            data.A2B = req.body.A2B;
+            data.A2B_ = req.body.A2B_;
+            data.AB = req.body.AB;
+            data.AB_ = req.body.AB_;
+            data.O = req.body.O;
+            data.O_ = req.body.O_;
+            data.A = req.body.A;
+            data.A_ = req.body.A_;
             await data.save();
             req.flash('success','Updated Successfully!');
             // res.redirect('/profileHospital');
@@ -44,27 +51,27 @@ module.exports =
      seed :async function(req,res,next){
         // hospDatabase.collection.dropIndex({"username":1});
         try {
-            var data=new hospDatabase();
+            var data = new hospDatabase();
             console.log(req.body.username);
-                data.name=req.body.username,
-                data.A2 ="1",
-                data.A2_="1",
-                data.B ="1",
-                data.B_ ="1",
-                data.A1 ="1",
-                data.A1B="1",
-                data.A1_="1",
-                data.A1B_="1",
-                data.A2B="1",
-                data.A2B_="1",
-                data.AB ="1",
-                data.AB_="1",
-                data.O ="1",
-                data.O_="1",
-                data.A="1",
-                data.A_ ="1";
-                await data.save();
-                next();
+            data.name = req.body.username;
+            data.A2 = "0";
+            data.A2_ = "0";
+            data.B = "0";
+            data.B_ = "0";
+            data.A1 = "0";
+            data.A1B = "0";
+            data.A1_ = "0";
+            data.A1B_ = "0";
+            data.A2B = "0";
+            data.A2B_ = "0";
+            data.AB = "0";
+            data.AB_ = "0";
+            data.O = "0";
+            data.O_ = "0";
+            data.A = "0";
+            data.A_ = "0";
+            await data.save();
+            next();
         } catch (err) {
             console.log(err);
             next(err);
