@@ -97,4 +97,20 @@ router.post('/',(req,res,next)=>{
     }
 });
 
+router.post('/logDonation', async (req, res) => {
+    if (!req.isAuthenticated()) return res.redirect('/home');
+    try {
+        const { date, location, notes } = req.body;
+        await donor.findByIdAndUpdate(req.user._id, {
+            $push: { donationLog: { $each: [{ date: new Date(date), location, notes }], $position: 0 } },
+            $set:  { dateOfLastDonation: new Date(date) }
+        });
+        req.flash('success', 'Donation logged successfully!');
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Failed to log donation.');
+    }
+    res.redirect('/profile');
+});
+
 module.exports = router;

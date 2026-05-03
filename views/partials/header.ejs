@@ -108,6 +108,8 @@
                 <a href="/tempHome" class="text-on-surface font-medium hover:text-primary transition-colors duration-300">Home</a>
                 <a href="#" onclick="openModal('search-donors'); return false;" class="text-on-surface font-medium hover:text-primary transition-colors duration-300">Search Donor</a>
                 <a href="/requests" class="text-on-surface font-medium hover:text-primary transition-colors duration-300">Blood Requests</a>
+                <a href="/camps" class="text-on-surface font-medium hover:text-primary transition-colors duration-300">Camps</a>
+                <a href="/hospital-needs" class="text-on-surface font-medium hover:text-primary transition-colors duration-300">Hospital Needs</a>
             </div>
         </div>
         <div class="flex items-center gap-4">
@@ -136,6 +138,9 @@
     <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 px-6 py-4 space-y-3">
         <a href="/tempHome" class="block text-on-surface font-medium hover:text-primary transition-colors py-2">Home</a>
         <a href="#" onclick="openModal('search-donors'); return false;" class="block text-on-surface font-medium hover:text-primary transition-colors py-2">Search Donor</a>
+        <a href="/requests" class="block text-on-surface font-medium hover:text-primary transition-colors py-2">Blood Requests</a>
+        <a href="/camps" class="block text-on-surface font-medium hover:text-primary transition-colors py-2">Camps</a>
+        <a href="/hospital-needs" class="block text-on-surface font-medium hover:text-primary transition-colors py-2">Hospital Needs</a>
         <% if(!currentUser){ %>
             <button onclick="openModal('register-choice')" class="w-full bg-primary text-white text-center rounded-lg font-medium py-3 hover:opacity-90 transition-all">Register</button>
         <% } %>

@@ -4,6 +4,8 @@ const donor = require('../models/donor');
 const hospital = require('../models/hospital');
 const hospDatabase = require('../models/hospDatabase');
 const Request = require('../models/request');
+const Camp = require('../models/camp');
+const HospitalRequest = require('../models/hospitalRequest');
 
 function isAdminLoggedIn(req, res, next) {
     if (req.session && req.session.isAdmin) return next();
@@ -33,9 +35,13 @@ router.post('/logout', (req, res) => {
 
 router.get('/', isAdminLoggedIn, async (req, res) => {
     try {
-        const donors = await donor.find({}).lean();
-        const hospitals = await hospital.find({}).lean();
-        const requests = await Request.find({}).sort({ createdAt: -1 }).lean();
+        const [donors, hospitals, requests, camps, hospNeeds] = await Promise.all([
+            donor.find({}).lean(),
+            hospital.find({}).lean(),
+            Request.find({}).sort({ createdAt: -1 }).lean(),
+            Camp.find({}).sort({ date: -1 }).lean(),
+            HospitalRequest.find({}).sort({ createdAt: -1 }).lean()
+        ]);
 
         const bloodGroupCounts = {};
         donors.forEach(d => {
@@ -58,6 +64,8 @@ router.get('/', isAdminLoggedIn, async (req, res) => {
             donors,
             hospitals,
             requests,
+            camps,
+            hospNeeds,
             bloodGroupCounts,
             topCities,
             activeDonors,
@@ -165,6 +173,60 @@ router.post('/requests/:id/delete', isAdminLoggedIn, async (req, res) => {
     } catch (err) {
         console.error(err);
         req.flash('error', 'Failed to delete request.');
+    }
+    res.redirect('/admin');
+});
+
+router.post('/camps/:id/status', isAdminLoggedIn, async (req, res) => {
+    try {
+        const { status } = req.body;
+        if (!['upcoming', 'completed', 'cancelled'].includes(status)) {
+            req.flash('error', 'Invalid camp status.');
+            return res.redirect('/admin');
+        }
+        await Camp.findByIdAndUpdate(req.params.id, { status });
+        req.flash('success', `Camp marked as ${status}.`);
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Failed to update camp.');
+    }
+    res.redirect('/admin');
+});
+
+router.post('/camps/:id/delete', isAdminLoggedIn, async (req, res) => {
+    try {
+        await Camp.findByIdAndDelete(req.params.id);
+        req.flash('success', 'Camp deleted.');
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Failed to delete camp.');
+    }
+    res.redirect('/admin');
+});
+
+router.post('/hospneeds/:id/status', isAdminLoggedIn, async (req, res) => {
+    try {
+        const { status } = req.body;
+        if (!['open', 'fulfilled', 'closed'].includes(status)) {
+            req.flash('error', 'Invalid status.');
+            return res.redirect('/admin');
+        }
+        await HospitalRequest.findByIdAndUpdate(req.params.id, { status });
+        req.flash('success', `Hospital need marked as ${status}.`);
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Failed to update hospital need.');
+    }
+    res.redirect('/admin');
+});
+
+router.post('/hospneeds/:id/delete', isAdminLoggedIn, async (req, res) => {
+    try {
+        await HospitalRequest.findByIdAndDelete(req.params.id);
+        req.flash('success', 'Hospital need deleted.');
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Failed to delete hospital need.');
     }
     res.redirect('/admin');
 });

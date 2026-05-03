@@ -215,6 +215,17 @@
                     <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
                 <% } %>
             </button>
+            <button onclick="switchTab('camps')" id="tab-camps" class="tab-btn flex items-center gap-2 px-5 py-2.5 rounded-t-lg text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low">
+                <span class="material-symbols-outlined text-base">event</span>
+                Camps (<%= camps.filter(c => c.status === 'upcoming').length %> upcoming)
+            </button>
+            <button onclick="switchTab('hospneeds')" id="tab-hospneeds" class="tab-btn flex items-center gap-2 px-5 py-2.5 rounded-t-lg text-sm font-medium transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low">
+                <span class="material-symbols-outlined text-base">local_hospital</span>
+                Hosp. Needs (<%= hospNeeds.filter(n => n.status === 'open').length %> open)
+                <% if (hospNeeds.filter(n => n.urgency === 'critical' && n.status === 'open').length > 0) { %>
+                    <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                <% } %>
+            </button>
         </div>
 
         <!-- Donors Tab -->
@@ -481,6 +492,188 @@
                                     <% } %>
                                     <form action="/admin/requests/<%= r._id %>/delete" method="POST" class="inline">
                                         <button type="submit" onclick="return confirm('Delete this request?')"
+                                            class="px-2 py-1 text-xs font-medium text-error bg-red-50 hover:bg-red-100 rounded-lg transition-colors border border-red-100">
+                                            <span class="material-symbols-outlined text-sm leading-none align-middle">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+        <!-- Camps Tab -->
+        <div id="tab-content-camps" class="tab-content p-6">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 rounded-lg text-xs font-semibold border border-green-100">
+                        <span class="material-symbols-outlined text-sm">event_available</span>
+                        <%= camps.filter(c => c.status === 'upcoming').length %> upcoming
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low text-on-surface-variant rounded-lg text-xs font-semibold border border-outline-variant">
+                        <%= camps.length %> total
+                    </span>
+                </div>
+                <a href="/camps" target="_blank" class="inline-flex items-center gap-1 text-xs text-secondary hover:underline">
+                    Public page <span class="material-symbols-outlined text-sm">open_in_new</span>
+                </a>
+            </div>
+            <% if (camps.length === 0) { %>
+            <div class="text-center py-16 text-on-surface-variant">
+                <span class="material-symbols-outlined text-5xl mb-3 block opacity-30">event_busy</span>
+                <p class="text-sm">No blood camps posted yet</p>
+            </div>
+            <% } else { %>
+            <div class="overflow-x-auto rounded-xl border border-outline-variant">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-wide">
+                            <th class="text-left px-4 py-3 font-semibold">Camp</th>
+                            <th class="text-left px-4 py-3 font-semibold">Organizer</th>
+                            <th class="text-left px-4 py-3 font-semibold">City</th>
+                            <th class="text-left px-4 py-3 font-semibold">Date</th>
+                            <th class="text-left px-4 py-3 font-semibold">Status</th>
+                            <th class="text-center px-4 py-3 font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant">
+                        <% camps.forEach(function(c) {
+                            const statusBadge = {
+                                upcoming:  'bg-green-50 text-green-700',
+                                completed: 'bg-secondary/10 text-secondary',
+                                cancelled: 'bg-gray-100 text-gray-500'
+                            }[c.status] || 'bg-gray-100 text-gray-500';
+                        %>
+                        <tr class="hover:bg-surface-container-low/50 transition-colors">
+                            <td class="px-4 py-3">
+                                <p class="font-medium text-on-surface"><%= c.title %></p>
+                                <p class="text-xs text-on-surface-variant"><%= c.address %></p>
+                                <p class="text-xs text-secondary mt-0.5"><a href="tel:<%= c.contactNumber %>"><%= c.contactNumber %></a></p>
+                            </td>
+                            <td class="px-4 py-3 text-on-surface-variant"><%= c.organizer %></td>
+                            <td class="px-4 py-3 text-on-surface-variant"><%= c.city %></td>
+                            <td class="px-4 py-3 text-xs text-on-surface-variant">
+                                <%= new Date(c.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) %>
+                                <% if (c.endDate) { %>– <%= new Date(c.endDate).toLocaleDateString('en-IN',{day:'2-digit',month:'short'}) %><% } %>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold capitalize <%= statusBadge %>"><%= c.status %></span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center justify-center gap-1 flex-wrap">
+                                    <% if (c.status === 'upcoming') { %>
+                                    <form action="/admin/camps/<%= c._id %>/status" method="POST" class="inline">
+                                        <input type="hidden" name="status" value="completed">
+                                        <button type="submit" class="px-2 py-1 text-xs font-medium bg-secondary/10 text-secondary hover:bg-secondary/20 rounded-lg transition-colors">✓ Done</button>
+                                    </form>
+                                    <form action="/admin/camps/<%= c._id %>/status" method="POST" class="inline">
+                                        <input type="hidden" name="status" value="cancelled">
+                                        <button type="submit" class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">Cancel</button>
+                                    </form>
+                                    <% } %>
+                                    <form action="/admin/camps/<%= c._id %>/delete" method="POST" class="inline">
+                                        <button type="submit" onclick="return confirm('Delete this camp?')"
+                                            class="px-2 py-1 text-xs font-medium text-error bg-red-50 hover:bg-red-100 rounded-lg transition-colors border border-red-100">
+                                            <span class="material-symbols-outlined text-sm leading-none align-middle">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Hospital Needs Tab -->
+        <div id="tab-content-hospneeds" class="tab-content p-6">
+            <div class="flex items-center gap-3 mb-5">
+                <%
+                const openHN     = hospNeeds.filter(n => n.status === 'open');
+                const criticalHN = hospNeeds.filter(n => n.urgency === 'critical' && n.status === 'open');
+                %>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-primary rounded-lg text-xs font-semibold border border-red-100">
+                        <span class="material-symbols-outlined text-sm">emergency</span>
+                        <%= criticalHN.length %> critical
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low text-on-surface-variant rounded-lg text-xs font-semibold border border-outline-variant">
+                        <%= openHN.length %> open total
+                    </span>
+                </div>
+                <div class="ml-auto">
+                    <a href="/hospital-needs" target="_blank" class="inline-flex items-center gap-1 text-xs text-secondary hover:underline">
+                        Public page <span class="material-symbols-outlined text-sm">open_in_new</span>
+                    </a>
+                </div>
+            </div>
+            <% if (hospNeeds.length === 0) { %>
+            <div class="text-center py-16 text-on-surface-variant">
+                <span class="material-symbols-outlined text-5xl mb-3 block opacity-30">bloodtype</span>
+                <p class="text-sm">No hospital blood needs posted yet</p>
+            </div>
+            <% } else { %>
+            <div class="overflow-x-auto rounded-xl border border-outline-variant">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-wide">
+                            <th class="text-left px-4 py-3 font-semibold">Hospital</th>
+                            <th class="text-left px-4 py-3 font-semibold">Blood</th>
+                            <th class="text-left px-4 py-3 font-semibold">Units</th>
+                            <th class="text-left px-4 py-3 font-semibold">Urgency</th>
+                            <th class="text-left px-4 py-3 font-semibold">Status</th>
+                            <th class="text-left px-4 py-3 font-semibold">Deadline</th>
+                            <th class="text-center px-4 py-3 font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant">
+                        <% hospNeeds.forEach(function(n) {
+                            const urgBadge = {critical:'bg-primary/10 text-primary',urgent:'bg-amber-50 text-amber-700',normal:'bg-blue-50 text-blue-600'}[n.urgency]||'bg-gray-100 text-gray-500';
+                            const stBadge  = {open:'bg-green-50 text-green-700',fulfilled:'bg-secondary/10 text-secondary',closed:'bg-gray-100 text-gray-500'}[n.status]||'bg-gray-100 text-gray-500';
+                        %>
+                        <tr class="hover:bg-surface-container-low/50 transition-colors">
+                            <td class="px-4 py-3">
+                                <p class="font-medium text-on-surface"><%= n.hospitalName %></p>
+                                <p class="text-xs text-on-surface-variant"><%= n.city %></p>
+                                <% if (n.contactNumber) { %><p class="text-xs text-secondary mt-0.5"><a href="tel:<%= n.contactNumber %>"><%= n.contactNumber %></a></p><% } %>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary"><%= n.bloodGroup %></span>
+                            </td>
+                            <td class="px-4 py-3 text-on-surface font-semibold"><%= n.unitsNeeded %> u</td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold capitalize <%= urgBadge %>"><%= n.urgency %></span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold capitalize <%= stBadge %>"><%= n.status %></span>
+                            </td>
+                            <td class="px-4 py-3 text-xs text-on-surface-variant">
+                                <% if (n.deadline) { %><%= new Date(n.deadline).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) %><% } else { %>—<% } %>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center justify-center gap-1 flex-wrap">
+                                    <% if (n.status !== 'fulfilled') { %>
+                                    <form action="/admin/hospneeds/<%= n._id %>/status" method="POST" class="inline">
+                                        <input type="hidden" name="status" value="fulfilled">
+                                        <button type="submit" class="px-2 py-1 text-xs font-medium bg-secondary/10 text-secondary hover:bg-secondary/20 rounded-lg transition-colors whitespace-nowrap">✓ Fulfilled</button>
+                                    </form>
+                                    <% } %>
+                                    <% if (n.status === 'open') { %>
+                                    <form action="/admin/hospneeds/<%= n._id %>/status" method="POST" class="inline">
+                                        <input type="hidden" name="status" value="closed">
+                                        <button type="submit" class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">Close</button>
+                                    </form>
+                                    <% } %>
+                                    <form action="/admin/hospneeds/<%= n._id %>/delete" method="POST" class="inline">
+                                        <button type="submit" onclick="return confirm('Delete this need?')"
                                             class="px-2 py-1 text-xs font-medium text-error bg-red-50 hover:bg-red-100 rounded-lg transition-colors border border-red-100">
                                             <span class="material-symbols-outlined text-sm leading-none align-middle">delete</span>
                                         </button>

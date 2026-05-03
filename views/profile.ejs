@@ -119,7 +119,150 @@
             </div>
             <p class="text-body-md text-on-surface"><%= donor.address %></p>
         </div>
+
+        <%
+            var logCount = (donor.donationLog && donor.donationLog.length) || 0;
+            var badges = [];
+            if (logCount >= 1)  badges.push({ label: 'First Drop',    icon: 'water_drop',        color: 'text-primary bg-primary/10',   tip: '1 donation' });
+            if (logCount >= 3)  badges.push({ label: 'Regular Giver', icon: 'favorite',           color: 'text-amber-600 bg-amber-50',   tip: '3 donations' });
+            if (logCount >= 5)  badges.push({ label: 'Lifesaver',     icon: 'star',               color: 'text-yellow-500 bg-yellow-50', tip: '5 donations' });
+            if (logCount >= 10) badges.push({ label: 'Hero',          icon: 'emoji_events',       color: 'text-purple-600 bg-purple-50', tip: '10 donations' });
+            if (logCount >= 25) badges.push({ label: 'Legend',        icon: 'military_tech',      color: 'text-rose-600 bg-rose-50',     tip: '25 donations' });
+        %>
+
+        <!-- Badges -->
+        <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-6 mt-6">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-amber-500">military_tech</span>
+                    </div>
+                    <h3 class="text-h3 text-on-surface">Badges</h3>
+                </div>
+                <span class="text-sm text-on-surface-variant"><%= logCount %> donation<%= logCount !== 1 ? 's' : '' %> logged</span>
+            </div>
+            <% if (badges.length === 0) { %>
+            <div class="text-center py-6 text-on-surface-variant">
+                <span class="material-symbols-outlined text-4xl opacity-20 block mb-2">military_tech</span>
+                <p class="text-sm">Log your first donation to earn a badge!</p>
+            </div>
+            <% } else { %>
+            <div class="flex flex-wrap gap-3">
+                <% badges.forEach(function(b) { %>
+                <div class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-outline-variant/40 <%= b.color %>">
+                    <span class="material-symbols-outlined text-lg filled"><%= b.icon %></span>
+                    <div>
+                        <p class="text-sm font-semibold leading-tight"><%= b.label %></p>
+                        <p class="text-xs opacity-70"><%= b.tip %></p>
+                    </div>
+                </div>
+                <% }) %>
+                <% if (logCount < 25) {
+                    var nextBadge = logCount < 3 ? {label:'Regular Giver', need:3} : logCount < 5 ? {label:'Lifesaver', need:5} : logCount < 10 ? {label:'Hero', need:10} : {label:'Legend', need:25};
+                %>
+                <div class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-outline-variant text-on-surface-variant opacity-60">
+                    <span class="material-symbols-outlined text-lg">lock</span>
+                    <div>
+                        <p class="text-sm font-semibold"><%= nextBadge.label %></p>
+                        <p class="text-xs"><%= nextBadge.need - logCount %> more to unlock</p>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Donation History -->
+        <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-6 mt-6">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">history</span>
+                    </div>
+                    <h3 class="text-h3 text-on-surface">Donation History</h3>
+                </div>
+                <button onclick="document.getElementById('logDonationModal').classList.remove('hidden')"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-on-primary rounded-lg text-sm font-semibold hover:opacity-90 transition-all shadow-md shadow-primary/20">
+                    <span class="material-symbols-outlined text-base">add</span>
+                    Log Donation
+                </button>
+            </div>
+            <% if (!donor.donationLog || donor.donationLog.length === 0) { %>
+            <div class="text-center py-8 text-on-surface-variant">
+                <span class="material-symbols-outlined text-4xl opacity-20 block mb-2">water_drop</span>
+                <p class="text-sm">No donations logged yet. Every drop counts!</p>
+            </div>
+            <% } else { %>
+            <div class="overflow-x-auto rounded-xl border border-outline-variant">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-wide">
+                            <th class="text-left px-4 py-3 font-semibold">#</th>
+                            <th class="text-left px-4 py-3 font-semibold">Date</th>
+                            <th class="text-left px-4 py-3 font-semibold">Location</th>
+                            <th class="text-left px-4 py-3 font-semibold">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant">
+                        <% donor.donationLog.forEach(function(entry, idx) { %>
+                        <tr class="hover:bg-surface-container-low/50 transition-colors">
+                            <td class="px-4 py-3">
+                                <span class="w-7 h-7 bg-primary/10 text-primary rounded-full flex items-center justify-center text-xs font-bold">
+                                    <%= donor.donationLog.length - idx %>
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 font-medium text-on-surface">
+                                <%= new Date(entry.date).toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'}) %>
+                            </td>
+                            <td class="px-4 py-3 text-on-surface-variant"><%= entry.location || '—' %></td>
+                            <td class="px-4 py-3 text-on-surface-variant"><%= entry.notes || '—' %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+        </div>
     </div>
 </main>
+
+<!-- Log Donation Modal -->
+<div id="logDonationModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 relative">
+        <button onclick="document.getElementById('logDonationModal').classList.add('hidden')"
+            class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary">water_drop</span>
+            </div>
+            <div>
+                <h2 class="text-h3 text-on-surface">Log a Donation</h2>
+                <p class="text-sm text-on-surface-variant">Record a blood donation you made</p>
+            </div>
+        </div>
+        <form action="/edit/logDonation" method="POST" class="space-y-4">
+            <div>
+                <label class="text-sm font-medium text-on-surface-variant block mb-1">Donation Date *</label>
+                <input type="date" name="date" required
+                    class="w-full px-4 py-3 rounded-lg bg-surface-container-low border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary">
+            </div>
+            <div>
+                <label class="text-sm font-medium text-on-surface-variant block mb-1">Location / Hospital</label>
+                <input type="text" name="location" placeholder="e.g. City Blood Bank, Apollo Hospital"
+                    class="w-full px-4 py-3 rounded-lg bg-surface-container-low border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary">
+            </div>
+            <div>
+                <label class="text-sm font-medium text-on-surface-variant block mb-1">Notes (optional)</label>
+                <textarea name="notes" rows="2" placeholder="Any extra details…"
+                    class="w-full px-4 py-3 rounded-lg bg-surface-container-low border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary resize-none"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3 bg-primary text-on-primary rounded-xl font-semibold hover:opacity-90 transition-all">
+                Save Donation
+            </button>
+        </form>
+    </div>
+</div>
 
 <% include partials/footer %>

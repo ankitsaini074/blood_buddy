@@ -34,7 +34,13 @@ var donorSchema = mongoose.Schema({
         contactNumber : String,
         address : String,
         activeStatus : Boolean ,
-        userType : String
+        userType : String,
+        donationLog : [{
+            date      : Date,
+            location  : String,
+            notes     : String,
+            createdAt : { type: Date, default: Date.now }
+        }]
 });
 
 //Hashing Password

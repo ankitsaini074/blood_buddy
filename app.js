@@ -31,7 +31,11 @@ const editHospRoutes = require("./routes/editHospital");
 const hospQuery = require("./routes/hospitalquery");
 const adminRoutes = require("./routes/admin");
 const requestRoutes = require("./routes/requests");
+const campRoutes = require("./routes/camps");
+const hospitalNeedsRoutes = require("./routes/hospitalNeeds");
 const Request = require('./models/request');
+const Camp = require('./models/camp');
+const HospitalRequest = require('./models/hospitalRequest');
 
 // ===================== CONFIG =====================
 const port = process.env.PORT || 5000;
@@ -121,6 +125,8 @@ connectDB();
 
 app.use("/admin", adminRoutes);
 app.use("/requests", requestRoutes);
+app.use("/camps", campRoutes);
+app.use("/hospital-needs", hospitalNeedsRoutes);
 app.use("/auth", authRoutes);
 app.use("/search", searchRoutes);
 app.use("/edit", editRoutes);
@@ -131,13 +137,17 @@ app.use("/editHospital", editHospRoutes);
 // Pages
 async function renderHome(req, res) {
     try {
-        const urgentRequests = await Request.find({
-            status: 'open',
-            urgency: { $in: ['critical', 'urgent'] }
-        }).sort({ urgency: 1, createdAt: -1 }).limit(5).lean();
-        res.render('home', { urgentRequests });
+        const [urgentRequests, upcomingCamps, topHospNeeds] = await Promise.all([
+            Request.find({ status: 'open', urgency: { $in: ['critical', 'urgent'] } })
+                .sort({ urgency: 1, createdAt: -1 }).limit(5).lean(),
+            Camp.find({ status: 'upcoming', date: { $gte: new Date() } })
+                .sort({ date: 1 }).limit(3).lean(),
+            HospitalRequest.find({ status: 'open', urgency: { $in: ['critical', 'urgent'] } })
+                .sort({ urgency: 1, createdAt: -1 }).limit(4).lean()
+        ]);
+        res.render('home', { urgentRequests, upcomingCamps, topHospNeeds });
     } catch (err) {
-        res.render('home', { urgentRequests: [] });
+        res.render('home', { urgentRequests: [], upcomingCamps: [], topHospNeeds: [] });
     }
 }
 app.get('/', renderHome);
@@ -148,8 +158,17 @@ app.get('/profile', middleware.isLoggedIn, (req, res) => {
     res.render('profile', { donor: req.user });
 });
 
-app.get('/profileHospital', middleware.isLoggedIn, (req, res) => {
-    res.render('profileHospital', { hospital: req.user });
+app.get('/profileHospital', middleware.isLoggedIn, async (req, res) => {
+    try {
+        const username = req.user.local && req.user.local.username;
+        const [myCamps, myNeeds] = await Promise.all([
+            Camp.find({ organizerUsername: username }).sort({ date: -1 }).lean(),
+            HospitalRequest.find({ hospitalUsername: username }).sort({ createdAt: -1 }).lean()
+        ]);
+        res.render('profileHospital', { hospital: req.user, myCamps, myNeeds });
+    } catch (err) {
+        res.render('profileHospital', { hospital: req.user, myCamps: [], myNeeds: [] });
+    }
 });
 
 // ===================== API =====================
