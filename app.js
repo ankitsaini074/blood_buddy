@@ -31,7 +31,7 @@ const editHospRoutes = require("./routes/editHospital");
 const hospQuery = require("./routes/hospitalquery");
 
 // ===================== CONFIG =====================
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
