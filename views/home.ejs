@@ -1,287 +1,249 @@
-<% include partials/header1 %>
+<% include partials/header %>
 
-<!-- home -->
-<div class="bgimg animated fadeIn" style="animation-delay:.1s;">
-    <div class="main-background-color">
-        <div class="container text-center headerset  ">
-            <h2 class="animated fadeIn" style="animation-delay:.2s;">Welcome To Blood Buddy!</h2>
-            <h3 class="animated fadeIn" style="animation-delay:.5s;">It's NICE TO SEE YOU HERE</h3>
-
-            <% if(!currentUser){ %>
-            <button class="btn btn-blue-filled btn-xl btn-general animated fadeIn " style="animation-delay:.8s;" onclick="$('#search-donors').fadeTo(500,1);$(body).css('overflow','hidden');"><b>Search Donor</b></button>
-            <% } else { %>
-            <h3 class="animated fadeIn" style="animation-delay:.7s;">
-                <%= currentUser.local.username %>
-            </h3>
-            <% } %>
-        </div>
-    </div>
-</div>
-<!-- services section -->
-<section id="services">
-    <div class="content-box">
-        <div class="content-title wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
-            <h3 class="text-center">Services</h3>
-            <div class="content-title-underline"></div>
-        </div>
-
-        <div class="container">
-
-            <div class="row wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
-
-                <div class="col-md-4">
-                    <div class="service-item">
-                        <div class="service-item-icon">
-                            <i class="fas fa-burn fa-2x"></i>
-                        </div>
-                        <div class="service-item-title">
-                            <h3>DONOR</h3>
-                        </div>
-                        <div class="service-item-desc">
-                            <p>Any one who wants to save the life of any person can register as a donor.</p>
-                        </div>
-                    </div>
+<main>
+    <!-- Hero Section -->
+    <section class="relative bg-background overflow-hidden">
+        <div class="max-w-[1280px] mx-auto px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center gap-12 md:gap-16">
+            <div class="flex-1 space-y-6 md:space-y-8 z-10">
+                <div class="inline-flex items-center px-4 py-2 bg-primary-fixed text-on-primary-fixed rounded-full text-label-md">
+                    <span class="material-symbols-outlined mr-2 text-[18px]">emergency_home</span>
+                    Urgently needed: O Negative
                 </div>
-
-
-                <div class="col-md-4">
-                    <div class="service-item">
-                        <div class="service-item-icon">
-                            <i class="fas fa-procedures fa-2x"></i>
-                        </div>
-                        <div class="service-item-title">
-                            <h3>RECIEVER</h3>
-                        </div>
-                        <div class="service-item-desc">
-                            <p>Any one who is in need , can get the blood easily from here.</p>
-                        </div>
-                    </div>
+                <h1 class="text-h1 text-on-surface font-h1">
+                    Your contribution can <span class="text-primary">save a life</span> today
+                </h1>
+                <p class="text-body-lg text-on-surface-variant max-w-lg">
+                    Connect with donors instantly or pledge your donation. Join network of Blood Buddy heroes and make an immediate impact in your community.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <% if(!currentUser){ %>
+                        <a href="/auth/register" class="px-8 py-4 bg-primary text-on-primary rounded-lg font-h3 text-body-md hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-2">
+                            <span class="material-symbols-outlined">volunteer_activism</span>
+                            Donate Now
+                        </a>
+                        <button onclick="openModal('search-donors'); return false;" class="px-8 py-4 border-2 border-secondary text-secondary rounded-lg font-h3 text-body-md hover:bg-secondary/5 active:scale-95 transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined">person_search</span>
+                            Search Donor
+                        </button>
+                    <% } else { %>
+                        <a href="/auth/logout" class="px-8 py-4 bg-primary text-on-primary rounded-lg font-h3 text-body-md hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-2">
+                            <span class="material-symbols-outlined">logout</span>
+                            Logout
+                        </a>
+                    <% } %>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="service-item">
-                        <div class="service-item-icon">
-                            <i class="fas fa-hospital fa-2x"></i>
-                        </div>
-                        <div class="service-item-title">
-                            <h3>HOSPITALS</h3>
-                        </div>
-                        <div class="service-item-desc">
-                            <p>A lot of hospitals are linked with our app and reciever can use their blood bank.</p>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- stats section -->
-<section id="stats">
-    <div id="stats-cover" class="bg-parallax">
-        <div class="content-box">
-            <div class="content-title content-title-white wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
-                <h3>We never stop improving</h3>
-                <div class="content-title-underline"></div>
-            </div>
-            <div class="container">
-                <div class="row wow bounceInLeft text-center" data-wow-duration="1s" data-wow-delay=".3s">
-                    <div class="col-md-3 ">
-                        <div class="stats-item">
-                            <i class="fas fa-users fa-5x"></i>
-                            <h2><span class="counter">105 </span><span>+</span></h2>
-                            <p>users</p>
-                        </div>
+            <div class="flex-1 relative">
+                <div class="absolute inset-0 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+                <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                    <img src="/img/image.jpg" alt="Medical professional with blood donation" class="w-full h-auto object-cover">
+                </div>
+                <!-- Stats Floating Card -->
+                <div class="absolute -bottom-4 -left-4 md:-bottom-8 md:-left-8 bg-white p-4 md:p-6 rounded-xl shadow-xl flex items-center gap-3 md:gap-4">
+                    <div class="h-10 md:h-12 w-10 md:w-12 bg-secondary/10 rounded-full flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined text-lg md:text-2xl filled">favorite</span>
                     </div>
-                    <div class="col-md-3 ">
-                        <div class="stats-item">
-                            <i class="fas fa-user-friends fa-5x"></i>
-                            <h2><span class="counter">75 </span><span>+</span></h2>
-                            <p>Donors</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 ">
-                        <div class="stats-item">
-                            <i class="fas fa-hospital-alt fa-5x"></i>
-                            <h2><span class="counter">50 </span><span>+</span></h2>
-                            <p>Hospitals</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 ">
-                        <div class="stats-item">
-                            <i class="fas fa-hands fa-5x"></i>
-                            <h2><span class="counter">42 </span><span>+</span></h2>
-                            <p>NGO's</p>
-                        </div>
+                    <div>
+                        <p class="text-h2 md:text-[32px] text-primary">12,480+</p>
+                        <p class="text-caption text-on-surface-variant">Lives impacted this year</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- About Section -->
-<section id="about">
+    <!-- Services Section -->
+    <section class="max-w-[1280px] mx-auto px-6 md:px-10 py-16 md:py-20">
+        <div class="text-center mb-12">
+            <h2 class="text-h2 text-on-surface mb-4">Our Services</h2>
+            <p class="text-body-md text-on-surface-variant max-w-2xl mx-auto">Connecting donors, hospitals, and recipients to save lives together</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <!-- Donor Service -->
+            <div class="bg-white p-8 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow group">
+                <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+                    <span class="material-symbols-outlined text-3xl text-primary">volunteer_activism</span>
+                </div>
+                <h3 class="text-h3 text-on-surface mb-3">DONOR</h3>
+                <p class="text-body-md text-on-surface-variant leading-relaxed">Any one who wants to save life of any person can register as a donor and contribute to this noble cause.</p>
+                <a href="/auth/register" class="inline-flex items-center mt-6 text-primary font-label-md hover:gap-2 transition-all gap-1">
+                    Register Now <span class="material-symbols-outlined">arrow_forward</span>
+                </a>
+            </div>
+            <!-- Recipient Service -->
+            <div class="bg-white p-8 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow group">
+                <div class="w-16 h-16 bg-secondary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-secondary/20 transition-colors">
+                    <span class="material-symbols-outlined text-3xl text-secondary">diversity_3</span>
+                </div>
+                <h3 class="text-h3 text-on-surface mb-3">RECEIVER</h3>
+                <p class="text-body-md text-on-surface-variant leading-relaxed">Any one who is in need can get blood easily from our extensive donor network across all cities.</p>
+                <button onclick="openModal('search-donors'); return false;" class="inline-flex items-center mt-6 text-secondary font-label-md hover:gap-2 transition-all gap-1">
+                    Find Donor <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </div>
+            <!-- Hospitals Service -->
+            <div class="bg-white p-8 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow group">
+                <div class="w-16 h-16 bg-tertiary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-tertiary/20 transition-colors">
+                    <span class="material-symbols-outlined text-3xl text-tertiary">local_hospital</span>
+                </div>
+                <h3 class="text-h3 text-on-surface mb-3">HOSPITALS</h3>
+                <p class="text-body-md text-on-surface-variant leading-relaxed">A lot of hospitals are linked with our app and receiver can use their blood bank to find compatible donors.</p>
+                <a href="/auth/registerHospital" class="inline-flex items-center mt-6 text-tertiary font-label-md hover:gap-2 transition-all gap-1">
+                    Register Hospital <span class="material-symbols-outlined">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+    </section>
 
-    <!-- About right side wih diagonal BG parallax -->
-    <div id="about-bg-diagonal" class="bg-parallax"> </div>
-    <!-- About left sid with content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div id="about-content-box">
-                    <div id="about-content-box-outer">
-                        <div id="about-content-box-inner">
-                            <div class="content-title wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
-                                <h3>About</h3>
-                                <div class="content-title-underline"></div>
-                            </div>
-                            <div id="about-desc" class="wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
-                                <p>In our country we loose millions of lives each year just because of lack of availability of blood. This is so serious and saddening that we are a group of 1.3 billion people and still we are not able to save lives. 
-Our project with the help of technology will connect all people,hospitals & ngo’s who require and are willing to donate blood.
-
-                                </p>
-                            </div>
-                            <div id="about-btn" class="wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
-                                <a class="btn btn-xl btn-general btn-blue" href="/auth/register" role="button">Contribute</a>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Stats Section -->
+    <section class="bg-inverse-surface text-inverse-on-surface py-16 md:py-20">
+        <div class="max-w-[1280px] mx-auto px-6 md:px-10">
+            <div class="text-center mb-10">
+                <h2 class="text-h2 text-inverse-on-surface mb-2">Our Impact</h2>
+                <p class="text-body-md text-inverse-on-surface opacity-80">Numbers that speak about our community's contribution</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
+                <div class="space-y-3">
+                    <p class="text-[40px] md:text-[48px] font-extrabold text-primary-fixed">105+</p>
+                    <p class="text-label-md uppercase tracking-wider">Users</p>
+                </div>
+                <div class="space-y-3">
+                    <p class="text-[40px] md:text-[48px] font-extrabold text-primary-fixed">75+</p>
+                    <p class="text-label-md uppercase tracking-wider">Donors</p>
+                </div>
+                <div class="space-y-3">
+                    <p class="text-[40px] md:text-[48px] font-extrabold text-primary-fixed">50+</p>
+                    <p class="text-label-md uppercase tracking-wider">Hospitals</p>
+                </div>
+                <div class="space-y-3">
+                    <p class="text-[40px] md:text-[48px] font-extrabold text-primary-fixed">42+</p>
+                    <p class="text-label-md uppercase tracking-wider">NGO's</p>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!--Testimonials Section-->
-<section id="testimonials">
-
-    <div id="testimonials-cover" class="bg-parallax">
-        <div class="content-box">
-            <div class="content-title content-title-white wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
-                <h3>What Our Users Say</h3>
-                <div class="content-title-underline"></div>
-            </div>
-            <div class="container">
-                <div class="row wow bounceInDown" data-wow-duration="1s" data-wow-delay=".3s">
-                    <div class="col-md-12">
-                        <div id="customers-testimonials" class="text-center owl-carousel owl-theme">
-                            <div class="testimonial">
-                                <img src="img/users/client-1.jpg" class="img-responsive rounded-circle" alt="testimonial">
-                                <blockquote>
-                                    <p>Awesome application for helping needy people.All the people who wants blood with in a short time can have benefit from here.</p>
-                                </blockquote>
-                                <div class="testimonial-author">
-                                    <p>
-                                        <strong> Daniel Watrous </strong>
-                                        <!--                                            <span> CEO & Founder - Google</span>-->
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="testimonial">
-                                <img src="img/users/client-2.jpg" class="img-responsive rounded-circle" alt="testimonial">
-                                <blockquote>
-                                    <p>I donated blood to a needy patient undergoing open heart surgery at GKNM Hospital, Coimbatore. I am happy to be associated with Blood Buddy and thank them for giving me this opportunity.</p>
-                                </blockquote>
-                                <div class="testimonial-author">
-                                    <p>
-                                        <strong> Daniel Watrous </strong>
-                                        <!--                                            <span> CEO & Founder - Google</span>-->
-
-                                    </p>
-
-                                </div>
-                            </div>
-                            <div class="testimonial">
-                                <img src="img/users/client-3.jpg" class="img-responsive rounded-circle" alt="testimonial">
-                                <blockquote>
-                                    <p>Had an amazing experience with Blood Buddy ... Saved the life of my brother back a few days.
-                                        Now I am also a registered donor on it .Thank you so much ...
-                                    </p>
-                                </blockquote>
-                                <div class="testimonial-author">
-                                    <p>
-                                        <strong> Daniel Watrous </strong>
-                                        <!--                                            <span> CEO & Founder - Google</span>-->
-
-                                    </p>
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
+    <!-- About Section -->
+    <section class="max-w-[1280px] mx-auto px-6 md:px-10 py-16 md:py-20">
+        <div class="bg-white rounded-2xl p-8 md:p-12 border border-outline-variant shadow-lg">
+            <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+                <div class="flex-1">
+                    <h2 class="text-h2 text-on-surface mb-4">About Blood Buddy</h2>
+                    <p class="text-body-lg text-on-surface-variant leading-relaxed mb-6">
+                        In our country we lose millions of lives each year just because of lack of availability of blood. This is so serious and saddening that we are a group of 1.3 billion people and still we are not able to save lives.
+                    </p>
+                    <p class="text-body-lg text-on-surface-variant leading-relaxed">
+                        Our project with help of technology will connect all people, hospitals & NGO's who require and are willing to donate blood. Together, we can bridge this gap and save countless lives.
+                    </p>
                 </div>
+                <div class="flex-shrink-0">
+                    <img src="/img/image2.jpg" alt="Blood donation awareness" class="w-full max-w-xs rounded-xl shadow-lg">
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <a href="/auth/register" class="inline-flex items-center px-8 py-4 bg-primary text-on-primary rounded-lg font-h3 text-body-md hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-primary/20 gap-2">
+                    <span class="material-symbols-outlined">favorite</span>
+                    Start Saving Lives
+                </a>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="contact-left">
-                    <h3>BLOOD BUDDY</h3>
-                    <p>We believe in <strong>Simple </strong>&<strong>Strong </strong> mutual relation in between we and you.Browse the amazing work of our company.</p>
-                    <div id="contact-info">
-                        <address>
-                            <strong>Headquarters:</strong><br>
-                            <p>ADGITM,<br>
-                                NEW DELHI</p>
-                        </address>
-
-                        <div id="phone-fax-email">
-                            <p>
-                                <strong>Phone:</strong> <span>9068793674</span><br>
-                                <strong>Fax : </strong> <span>9068793674</span><br>
-                                <strong>Email:</strong> <span>blood_buddy@gmail.com</span><br>
-                            </p>
-                        </div>
+    <!-- Testimonials Section -->
+    <section class="max-w-[1280px] mx-auto px-6 md:px-10 py-16 md:py-20">
+        <div class="text-center mb-12">
+            <h2 class="text-h2 text-on-surface mb-4">What Our Users Say</h2>
+            <p class="text-body-md text-on-surface-variant">Real stories from our community of life-savers</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-white p-8 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="/img/users/client-1.jpg" alt="Daniel Watrous" class="w-16 h-16 rounded-full object-cover border-2 border-surface-container-low">
+                    <div>
+                        <h4 class="text-label-md text-on-surface font-semibold">Daniel Watrous</h4>
+                        <p class="text-caption text-on-surface-variant">Donor</p>
                     </div>
-                    <ul class="social-list">
-                        <li><a href="https://www.facebook.com/nitkkr.ac.in" target="_blank" class="social-icon icon-white"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#" target="_blank" class="social-icon icon-white"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#" target="_blank" class="social-icon icon-white"><i class="fab fa-youtube"></i></a></li>
-                        <li><a href="#" target="_blank" class="social-icon icon-white"><i class="fab fa-google-plus-g"></i></a></li>
-                    </ul>
                 </div>
+                <blockquote class="text-body-md text-on-surface-variant italic leading-relaxed">
+                    "Awesome application for helping needy people. All people who wants blood with in a short time can have benefit from here."
+                </blockquote>
             </div>
-            <div class="col-md-6">
-                <div class="contact-right">
-                    <h3>contact us</h3>
-                    <div id="contact-form">
-                        <form action="#">
-                            <input type="text" name="userName" placeholder="Full Name" class="form-control footer-control" required><br>
-                            <input type="email" name="userEmail" placeholder="Email Address" class="form-control footer-control" required><br>
-                            <textarea rows="5" name="message" placeholder="Message..." class="form-control footer-control"></textarea><br>
-                            <div id="send-btn">
-                                <a href="" role="button" class="btn btn-lg btn-general btn-white" onclick="alert('Thanks for contacting us, We will reply you soon !!!');">SEND</a>
-                            </div>
-                        </form>
-
+            <!-- Testimonial 2 -->
+            <div class="bg-white p-8 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="/img/users/client-2.jpg" alt="Sarah Johnson" class="w-16 h-16 rounded-full object-cover border-2 border-surface-container-low">
+                    <div>
+                        <h4 class="text-label-md text-on-surface font-semibold">Sarah Johnson</h4>
+                        <p class="text-caption text-on-surface-variant">Donor</p>
                     </div>
                 </div>
+                <blockquote class="text-body-md text-on-surface-variant italic leading-relaxed">
+                    "I donated blood to a needy patient undergoing open heart surgery at GKNM Hospital, Coimbatore. I am happy to be associated with Blood Buddy and thank them for giving me this opportunity."
+                </blockquote>
+            </div>
+            <!-- Testimonial 3 -->
+            <div class="bg-white p-8 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="/img/users/client-3.jpg" alt="Michael Chen" class="w-16 h-16 rounded-full object-cover border-2 border-surface-container-low">
+                    <div>
+                        <h4 class="text-label-md text-on-surface font-semibold">Michael Chen</h4>
+                        <p class="text-caption text-on-surface-variant">Donor</p>
+                    </div>
+                </div>
+                <blockquote class="text-body-md text-on-surface-variant italic leading-relaxed">
+                    "Had an amazing experience with Blood Buddy. Saved life of my brother back a few days. Now I am also a registered donor on it. Thank you so much!"
+                </blockquote>
             </div>
         </div>
-    </div>
-    <div id="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div id="footer-copyrights">
-                        <p>Copyrights &copy; 2018 All Rights Reserved by Blood_Buddy.</p>
+    </section>
+
+    <!-- Quick Find Widget -->
+    <section class="max-w-[1280px] mx-auto px-6 md:px-10 -mt-8 pb-20">
+        <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 border border-outline-variant">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined">search</span>
+                </div>
+                <h3 class="text-h3 text-on-surface">Find a donor instantly</h3>
+            </div>
+            <form action="/search" method="post" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="space-y-2">
+                    <label class="text-label-md text-on-surface-variant block">Blood Type</label>
+                    <select name="bloodGroup" class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-secondary">
+                        <option value="0">Any</option>
+                        <option>A1+</option><option>A1-</option><option>A2+</option><option>A2-</option>
+                        <option>B+</option><option>B-</option><option>A1B+</option><option>A1B-</option>
+                        <option>A2B+</option><option>A2B-</option><option>AB+</option><option>AB-</option>
+                        <option>O+</option><option>O-</option><option>A+</option><option>A-</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-label-md text-on-surface-variant block">Location</label>
+                    <div class="relative">
+                        <select name="city" class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg pl-10 focus:ring-2 focus:ring-secondary appearance-none">
+                            <option value="0">Select City</option>
+                            <option>Agartala</option><option>Agra</option><option>Ahmedabad</option><option>Ahmednagar</option><option>Aizwal</option><option>Ajmer</option><option>Akola</option><option>Aligarh</option><option>Allahabad</option><option>Alwar</option><option>Ambala</option><option>Amravati</option><option>Amreli</option><option>Amritsar</option><option>Anand</option><option>Anantapur</option><option>Anklesvar</option><option>Anuppur</option><option>Araria</option><option>Arcot</option><option>Arrah</option><option>Aruppukkottai</option><option>Asansol</option><option>Ashok Nagar</option><option>Aurangabad</option><option>Azamgarh</option><option>Bahadurgarh</option><option>Baharampur</option><option>Bahraich</option><option>Balaghat</option><option>Balasore</option><option>Balia</option><option>Ballabhgarh</option><option>Ballarpur</option><option>Balrampur</option><option>Banda</option><option>Bangalore</option><option>Banswara</option><option>Bardhaman</option><option>Bareilly</option><option>Barmer</option><option>Barrackpur</option><option>Barwani</option><option>Beawar</option><option>Belgaum</option><option>Bellary</option><option>Bengaluru</option><option>Betul</option><option>Bhagalpur</option><option>Bhandara</option><option>Bharatpur</option><option>Bharuch</option><option>Bhavnagar</option><option>Bhilai Nagar</option><option>Bhimavaram</option><option>Bhiwandi</option><option>Bhopal</option><option>Bhubaneswar</option><option>Bhuj</option><option>Bidar</option><option>Bihar Sharif</option><option>Bikaner</option><option>Bilaspur</option><option>Bokaro Steel City</option><option>Bongaigaon</option><option>Bulandshahr</option><option>Buldana</option><option>Burhanpur</option><option>Buxar</option><option>Chandigarh</option><option>Chennai</option><option>Coimbatore</option><option>Cuttack</option><option>Dehradun</option><option>Delhi</option><option>Dhanbad</option><option>Dharwad</option><option>Dhule</option><option>Dibrugarh</option><option>Dispur</option><option>Durgapur</option><option>Ernakulam</option><option>Erode</option><option>Faridabad</option><option>Gandhinagar</option><option>Gangtok</option><option>Gaya</option><option>Ghaziabad</option><option>Goa Velha</option><option>Gorakhpur</option><option>Greater Noida</option><option>Gurgaon</option><option>Guwahati</option><option>Gwalior</option><option>Haridwar</option><option>Hisar</option><option>Howrah</option><option>Hubli</option><option>Hyderabad</option><option>Indore</option><option>Jabalpur</option><option>Jaipur</option><option>Jalandhar</option><option>Jammu</option><option>Jamshedpur</option><option>Jodhpur</option><option>Junagadh</option><option>Kakinada</option><option>Kanpur</option><option>Kochi</option><option>Kohima</option><option>Kolkata</option><option>Kota</option><option>Lucknow</option><option>Ludhiana</option><option>Madurai</option><option>Mangalore</option><option>Mumbai</option><option>Meerut</option><option>Moradabad</option><option>Mysore</option><option>Nagpur</option><option>Nainital</option><option>Nashik</option><option>Navi Mumbai</option><option>Nellore</option><option>New Delhi</option><option>Nizamabad</option><option>NOIDA</option><option>Patna</option><option>Pune</option><option>Raipur</option><option>Rajkot</option><option>Ranchi</option><option>Salem</option><option>Shillong</option><option>Shimla</option><option>Silchar</option><option>Siliguri</option><option>Srinagar</option><option>Surat</option><option>Thane</option><option>Thiruvananthapuram</option><option>Thrissur</option><option>Tiruchirappalli</option><option>Tirupathi</option><option>Udaipur</option><option>Varanasi</option><option>Vellore</option><option>Vijayawada</option><option>Visakhapatnam</option><option>Warangal</option>
+                        </select>
+                        <span class="material-symbols-outlined absolute left-3 top-3 text-on-surface-variant">location_on</span>
                     </div>
                 </div>
-                
-            </div>
+                <div class="space-y-2">
+                    <label class="text-label-md text-on-surface-variant block">Urgency</label>
+                    <select class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-secondary">
+                        <option>Normal</option>
+                        <option>Urgent (Within 24h)</option>
+                        <option>Critical (ASAP)</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button type="submit" class="w-full h-12 bg-secondary text-on-secondary rounded-lg font-label-md hover:bg-on-secondary-container transition-colors shadow-lg shadow-secondary/20">
+                        Search Availability
+                    </button>
+                </div>
+            </form>
         </div>
-    </div>
-</footer>
+    </section>
+</main>
 
 <% include partials/footer %>

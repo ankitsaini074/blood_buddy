@@ -1,71 +1,40 @@
-var express               = require('express'),
-    app                   = express(),
-    mongoose              = require('mongoose'),
-    bodyParser            = require('body-parser'),
-    passport              = require('passport'),
-    LocalStrategy         = require("passport-local").Strategy,
-    cookieParser          = require("cookie-parser"),
-    session               = require('express-session'),
-    flash                 = require('connect-flash'),
-    donor                 = require('./models/donor.js'),
-    hospital              = require('./models/hospital.js'),
-    hashmap               = require('hashmap');
+const express = require('express'),
+    mongoose = require('mongoose');
 
+const donor = require('./models/donor.js'),
+    hospital = require('./models/hospital.js'),
+    hashmap = require('hashmap');
 
+async function countDonors(map){
+    try {
+        const donors = await donor.find({activeStatus:true});
+        donors.forEach((element)=>{
+            if(element.activeStatus==true){
+                const bloodGroupKey = element.bloodGroup;
+                const currentCount = map.get(bloodGroupKey) || 0;
+                map.set(bloodGroupKey, currentCount + 1);
+            }
+        });
 
-function countDonors(map){
+        const hospitals = await hospital.find({});
+        hospitals.forEach((element)=>{
+            if(element.activeStatus==true){
+                const currentCount = map.get('hospcount') || 0;
+                map.set('hospcount', currentCount + 1);
+            }
+        });
 
-
-   donor.find({}).select().exec((err,donors) => {
-       if(err)
-       return handleError(err);
-       donors.forEach((element)=>{
-           if(element.activeStatus==true){
-       map.forEach((key,mapelement)=>{
-          // console.log(element.bloodGroup);
-         //  
-           if(element.bloodGroup === mapelement)
-           {
-           // console.log(mapelement);
-            key=key+1;
-            map.set(mapelement,key);
-           }
-       })}
-       
-   });
-  // console.log(map.get("A1+"));
-});
-
-donor.find({}).select().exec((err,donors) => {
-    if(err)
-    return handleError(err);
-    donors.forEach((element)=>{        
-            var x= map.get("donorcount");
-            x=x+1;
-            map.set("donorcount",x);       
-
-});
-
-});
-
-hospital.find({}).select().exec((err,donors) => {
-    if(err)
-    return handleError(err);
-    donors.forEach((element)=>{        
-            var x= map.get("hospcount");
-            x=x+1;
-            map.set("hospcount",x);       
-
-});
-
-});
-
-
-
-
+        return {
+            donorCount: donors.length,
+            hospCount: hospitals.length
+        };
+    } catch (err) {
+        console.error('Error counting:', err.message);
+        return {
+            donorCount: 0,
+            hospCount: 0
+        };
+    }
 }
 
-module.exports = countDonors ;
-
-
-
+module.exports = countDonors;

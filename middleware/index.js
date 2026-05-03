@@ -1,7 +1,7 @@
 hospDatabase        = require('../models/hospDatabase'),
-module.exports = 
+module.exports =
 {
-      
+
     isLoggedIn : function(req, res, next){
         if (req.isAuthenticated())
             return next();
@@ -10,10 +10,9 @@ module.exports =
         res.redirect('/home');
     },
 
-     editHospData:function(req,res,next){
-
-        hospDatabase.findOne({"name": req.user.local.username}, function (err, data) {
-            if (err) console.log(err);
+     editHospData: async function(req,res,next){
+        try {
+            const data = await hospDatabase.findOne({"name": req.user.local.username});
             console.log(req.user.local.username);
             data.A2 =req.body.A2,
         data.A2_=req.body.A2_,
@@ -31,39 +30,45 @@ module.exports =
         data.O_ =req.body.O_,
         data.A=req.body.A,
         data.A_ =req.body.A_;
-            data.save(function(err, updated){
-                    if (err) console.log(err);
-                    req.flash('success','Updated Successfully!');
-                    // res.redirect('/profileHospital');
-                    next();
-                });
-          })
-        
-        
-        },
-         seed :function(req,res,next){
-            // hospDatabase.collection.dropIndex({"username":1}); 
-         var data=new hospDatabase();
-         console.log(req.body.username);
-             data.name=req.body.username,
-             data.A2 ="1",
-             data.A2_="1",
-             data.B ="1",
-             data.B_ ="1",
-             data.A1 ="1",
-             data.A1B="1",
-             data.A1_="1",
-             data.A1B_="1",
-             data.A2B="1",
-             data.A2B_="1",
-             data.AB ="1",
-             data.AB_="1",
-             data.O ="1",
-             data.O_ ="1",
-             data.A="1",
-             data.A_ ="1";
-             data.save();
-             next();
-         }
-         
+            await data.save();
+            req.flash('success','Updated Successfully!');
+            // res.redirect('/profileHospital');
+            next();
+        } catch (err) {
+            console.log(err);
+            next(err);
+        }
+     },
+
+
+     seed :async function(req,res,next){
+        // hospDatabase.collection.dropIndex({"username":1});
+        try {
+            var data=new hospDatabase();
+            console.log(req.body.username);
+                data.name=req.body.username,
+                data.A2 ="1",
+                data.A2_="1",
+                data.B ="1",
+                data.B_ ="1",
+                data.A1 ="1",
+                data.A1B="1",
+                data.A1_="1",
+                data.A1B_="1",
+                data.A2B="1",
+                data.A2B_="1",
+                data.AB ="1",
+                data.AB_="1",
+                data.O ="1",
+                data.O_="1",
+                data.A="1",
+                data.A_ ="1";
+                await data.save();
+                next();
+        } catch (err) {
+            console.log(err);
+            next(err);
+        }
+     }
+
 };

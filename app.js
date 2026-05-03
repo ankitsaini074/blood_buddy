@@ -30,7 +30,7 @@ var authRoutes    = require("./routes/auth"),
 const port=process.env.PORT || 8080;
  
 //Connecting database
- mongoose.connect('mongodb+srv://admin:admin123@cluster0.57b0zee.mongodb.net/ankitsaini257?retryWrites=true&w=majority', {useNewUrlParser: true});
+ mongoose.connect('mongodb+srv://admin:admin123@cluster0.57b0zee.mongodb.net/ankitsaini257?retryWrites=true&w=majority');
 //mongoose.connect('mongodb://localhost:27017/blood', {useNewUrlParser: true});
 
 
@@ -108,6 +108,9 @@ app.get('/profile',middleware.isLoggedIn,function(req,res){
 app.get('/profileFacebook',function(req,res){
     res.render('profileFacebook',{donor : req.user});
 });
+app.get('/profileGoogle',function(req,res){
+    res.render('profileGoogle',{donor : req.user});
+});
 app.get('/profileHospital',middleware.isLoggedIn,function(req,res){
     console.log("hosp login");
     res.render('profileHospital',{hospital : req.user});
@@ -121,77 +124,71 @@ app.get('/auth/google/callback',
                 failureRedirect : '/'
         }));
 
-app.post("/home/usernameTest",function(req,res){
-    var query= donor.findOne({"local.username":req.body.username});
- query.select("local.username");
- query.exec(function (err, person) {
-   if (err) return handleError(err);     
-   if(person ==null)
-   res.send({"username":"-1"});
-   else res.send({"username":person.local.username});
-});
-});
-
-
-app.post("/home/emailTest",function(req,res){
-  var query= donor.findOne({"email":req.body.email});
-query.select("email");
-query.exec(function (err, person) {
- if (err) return handleError(err);     
- if(person ==null)
- res.send({"email":"-1"});
- else res.send({"email":person.email});
-});
+app.post("/home/usernameTest", async function(req,res){
+    try {
+        const person = await donor.findOne({"local.username":req.body.username});
+        if(person ==null)
+            res.send({"username":"-1"});
+        else res.send({"username":person.local.username});
+    } catch (err) {
+        console.error(err);
+    }
 });
 
 
-app.post("/home/hospitalUsernameTest",function(req,res){
-    var query= hospital.findOne({"local.username":req.body.username});
- query.select("local.username");
- query.exec(function (err, person) {
-   if (err) return handleError(err);     
-   if(person ==null)
-   res.send({"username":"-1"});
-   else res.send({"username":person.local.username});
-});
-});
-
-
-app.post("/home/hospitalEmailTest",function(req,res){
-  var query= hospital.findOne({"email":req.body.email});
-query.select("email");
-query.exec(function (err, person) {
- if (err) return handleError(err);     
- if(person ==null)
- res.send({"email":"-1"});
- else res.send({"email":person.email});
-
- //console.log(person.email);
-
-});
+app.post("/home/emailTest", async function(req,res){
+  try {
+    const person = await donor.findOne({"email":req.body.email});
+    if(person ==null)
+        res.send({"email":"-1"});
+    else res.send({"email":person.email});
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 
-app.get("/hospDatabase",middleware.isLoggedIn,function(req,res){
-
-var database=hospDatabase.findOne({"name":req.user.local.username}).select();
-database.exec(function (err, data) {
-    if (err) return handleError(err);     
-    res.render('hospDatabase',{"data":data });
-   });
-
-    
+app.post("/home/hospitalUsernameTest", async function(req,res){
+    try {
+        const person = await hospital.findOne({"local.username":req.body.username});
+        if(person ==null)
+            res.send({"username":"-1"});
+        else res.send({"username":person.local.username});
+    } catch (err) {
+        console.error(err);
+    }
 });
 
 
-app.get("/editHospDatabase",middleware.isLoggedIn,function(req,res){
+app.post("/home/hospitalEmailTest", async function(req,res){
+  try {
+    const person = await hospital.findOne({"email":req.body.email});
+    if(person ==null)
+        res.send({"email":"-1"});
+    else res.send({"email":person.email});
+  } catch (err) {
+    console.error(err);
+  }
+});
 
-    var database=hospDatabase.findOne({"name":req.user.local.username}).select();
-    database.exec(function (err, data) {
-        if (err) return handleError(err);     
+
+app.get("/hospDatabase",middleware.isLoggedIn, async function(req,res){
+    try {
+        const data = await hospDatabase.findOne({"name":req.user.local.username});
+        res.render('hospDatabase',{"data":data });
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+
+app.get("/editHospDatabase",middleware.isLoggedIn, async function(req,res){
+    try {
+        const data = await hospDatabase.findOne({"name":req.user.local.username});
         res.render('editHospDatabase',{"data":data });
-       });
-
+    } catch (err) {
+        console.error(err);
+    }
 });
 
 

@@ -4,7 +4,11 @@ var express = require("express"),
     hospital = require("../models/hospital"),
     request = require("request");
 
- 
+router.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
+
 //Show Search page
 router.get("/",function(req,res)
 {
@@ -12,138 +16,47 @@ router.get("/",function(req,res)
 });
 
 //Handle Search Logic
-router.post("/",function(req,res)
+router.post("/", async function(req,res)
 {
-//    console.log(req.body.city);
-//    console.log(req.body.bloodGroup);
-    if(req.body.bloodGroup == "0")
-    {
-        if(req.body.city == "0")
-        {
+    try {
+        var hospitalList = [];
+        var donorList = [];
 
-            var srch= new Promise((resolve,reject)=>
+        if(req.body.bloodGroup == "0")
+        {
+            if(req.body.city == "0")
             {
-                donor.find({}).select().exec(function (err, donorList)
-                    {
-                        if (err) 
-                          reject(err);
-                        else resolve(donorList);                         
-                    })
-            })
-            .then((donorList)=>
+                donorList = await donor.find({});
+                hospitalList = await hospital.find({});
+            }
+            else
             {
-                hospital.find({},function (err, hospList)
-                {
-                                if (err) 
-                                  return handleError(err); 
-                                donorList.forEach(function(element)
-                                {
-                                    if(element.activeStatus == true)
-                                    hospList.push(element);
-                                });
-                                res.render("displayDonor",{ donors:hospList});
-                })
-            },(err)=>
-                {
-                       return handleError(err);
-                })
+                donorList = await donor.find({"city":req.body.city});
+                hospitalList = await hospital.find({"city":req.body.city});
+            }
+        }
+        else
+        {
+            if(req.body.city == "0")
+            {
+                donorList = await donor.find({"bloodGroup":req.body.bloodGroup});
+                hospitalList = await hospital.find({});
+            }
+            else
+            {
+                donorList = await donor.find({"city":req.body.city}).where('bloodGroup').equals(req.body.bloodGroup);
+                hospitalList = await hospital.find({"city":req.body.city});
+            }
         }
 
-       
-        else 
-        {
-              
-            var srch= new Promise((resolve,reject)=>
-            {
-                donor.find({"city":req.body.city}).select().exec(function (err, donorList)
-                    {
-                        if (err) 
-                          reject(err);
-                        else resolve(donorList);                         
-                    })
-            })
-            .then((donorList)=>
-            {
-                hospital.find({"city":req.body.city},function (err, hospList)
-                {
-                                if (err) 
-                                  return handleError(err); 
-                                donorList.forEach(function(element)
-                                {
-                                    if(element.activeStatus == true)
-                                     hospList.push(element);
-                                });
-                                res.render("displayDonor",{ donors:hospList});
-                })
-            },(err)=>
-                {
-                       return handleError(err);
-                })
+        donorList.forEach(function(element){
+            if(element.activeStatus == true)
+                hospitalList.push(element);
+        });
 
-        }
-    }
-    else 
-    {
-        if(req.body.city == "0")
-        {
-            var srch= new Promise((resolve,reject)=>
-            {
-                donor.find({"bloodGroup":req.body.bloodGroup}).select().exec(function (err, donorList)
-                    {
-                        if (err) 
-                          reject(err);
-                        else resolve(donorList);                         
-                    })
-            })
-            .then((donorList)=>
-            {
-                hospital.find({},function (err, hospList)
-                {
-                                if (err) 
-                                  return handleError(err); 
-                                donorList.forEach(function(element)
-                                {
-                                    if(element.activeStatus == true)
-                                    hospList.push(element);
-                                });
-                                res.render("displayDonor",{ donors:hospList});
-                })
-            } ,(err)=>
-                {
-                       return handleError(err);
-                })
-            
-        }
-        else 
-        {
-            var srch= new Promise((resolve,reject)=>
-            {
-                donor.find({"city":req.body.city}).where('bloodGroup').equals(req.body.bloodGroup ).select().exec(function (err, donorList)
-                    {
-                        if (err) 
-                          reject(err);
-                        else resolve(donorList);                         
-                    })
-            })
-            .then((donorList)=>
-            {
-                hospital.find({"city":req.body.city},function (err, hospList)
-                {
-                                if (err) 
-                                  return handleError(err); 
-                                donorList.forEach(function(element)
-                                {
-                                    if(element.activeStatus == true)
-                                    hospList.push(element);
-                                });
-                                res.render("displayDonor",{ donors:hospList});
-                })
-            },(err)=>
-                {
-                       return handleError(err);
-                })
-            
-        }       
+        res.render("displayDonor",{ donors:hospitalList});
+    } catch (err) {
+        console.error(err);
     }
 });
 

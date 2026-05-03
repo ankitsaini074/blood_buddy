@@ -1,73 +1,251 @@
 <% include partials/header %>
 
-<a href="/editHospDatabase">Edit Profile</a><br>
-<form action="/hospDatabaseForm" id ="form" method="POST" >
-    <div class="form-group">
-<label>
-    A1+<br>
-    <input type ="text" class="form-control" placeholder =<%=data.A1 %>  readonly>
-</label>
-<label>
-    A1-<br>
-    <input type ="text" class="form-control" placeholder =<%=data.A1_ %> readonly>
-</label>
-<label>
-        A2+<br>
-        <input type ="text" class="form-control" placeholder =<%=data.A2 %> readonly>
-    </label>
-    <label>
-        A2-<br>
-        <input type ="text" class="form-control" placeholder =<%=data.A2_ %> readonly>
-</label>
-<label>
-        B+<br>
-        <input type ="text" class="form-control" placeholder =<%=data.B  %> readonly>
-    </label>
-    <label>
-        B-<br>
-        <input type ="text" class="form-control" placeholder =<%=data.B_ %> readonly>
-    </label>
- <label>
-            A1B+<br>
-            <input type ="text" class="form-control" placeholder =<%=data.A1B %> readonly>
-        </label>
-        <label>
-            A1B-<br>
-            <input type ="text" class="form-control" placeholder =<%=data.A1B_ %> readonly>
-</label>
-<label>
-        A2B<br>
-        <input type ="text" class="form-control" placeholder =<%=data.A2B %> readonly>
-    </label>
-    <label>
-        A2B-<br>
-        <input type ="text" class="form-control" placeholder =<%=data.A2B_ %> readonly>
-    </label>
-    <label>
-            AB+<br>
-            <input type ="text" class="form-control" placeholder =<%=data.AB %> readonly>
-        </label>
-        <label>
-            AB-<br>
-            <input type ="text" class="form-control" placeholder =<%=data.AB_ %> readonly>
-    </label>
-    <label>
-            O+<br>
-            <input type ="text" class="form-control" placeholder =<%=data.O %> readonly>
-        </label>
-        <label>
-            O-<br>
-            <input type ="text" class="form-control" placeholder =<%=data.O_ %> readonly>
-        </label>
-     <label>
-                A+<br>
-                <input type ="text" class="form-control" placeholder =<%=data.A %> readonly>
-            </label>
-            <label>
-                A-<br>
-                <input type ="text" class="form-control" placeholder =<%=data.A_ %> readonly>
-    </label>
+<main class="max-w-[1280px] mx-auto px-6 md:px-10 py-16 md:py-20">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-h1 text-on-surface mb-2">Blood Inventory</h1>
+                <p class="text-body-md text-on-surface-variant">Current blood stock levels at your hospital</p>
+            </div>
+            <a href="/editHospDatabase" class="inline-flex items-center px-6 py-3 bg-secondary text-on-secondary rounded-lg font-label-md hover:bg-on-secondary-container transition-colors gap-2">
+                <span class="material-symbols-outlined">edit</span>
+                Update Inventory
+            </a>
+        </div>
+
+        <!-- Blood Type Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <!-- A+ -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A+</span>
+                    <span class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- A- -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A-</span>
+                    <span class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A_ || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- B+ -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">B+</span>
+                    <span class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-secondary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.B || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- B- -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">B-</span>
+                    <span class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-secondary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.B_ || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- AB+ -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">AB+</span>
+                    <span class="w-8 h-8 bg-tertiary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-tertiary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.AB || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- AB- -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">AB-</span>
+                    <span class="w-8 h-8 bg-tertiary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-tertiary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.AB_ || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- O+ -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">O+</span>
+                    <span class="w-8 h-8 bg-error/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-error text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.O || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- O- -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">O-</span>
+                    <span class="w-8 h-8 bg-error/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-error text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.O_ || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- A1+ -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A1+</span>
+                    <span class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A1 || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- A1- -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A1-</span>
+                    <span class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A1_ || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- A2+ -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A2+</span>
+                    <span class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A2 || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- A2- -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A2-</span>
+                    <span class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A2_ || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- A1B+ -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A1B+</span>
+                    <span class="w-8 h-8 bg-tertiary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-tertiary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A1B || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- A1B- -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A1B-</span>
+                    <span class="w-8 h-8 bg-tertiary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-tertiary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A1B_ || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- A2B+ -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A2B+</span>
+                    <span class="w-8 h-8 bg-tertiary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-tertiary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A2B || '0' %> units</span>
+                </div>
+            </div>
+
+            <!-- A2B- -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-4 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-h3 text-on-surface font-semibold">A2B-</span>
+                    <span class="w-8 h-8 bg-tertiary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-tertiary text-lg">bloodtype</span>
+                    </span>
+                </div>
+                <div class="bg-surface-container-low rounded-lg py-3 px-2 text-center">
+                    <span class="text-body-lg text-on-surface font-medium"><%= data.A2B_ || '0' %> units</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Card -->
+        <div class="bg-gradient-to-r from-secondary/5 to-tertiary/5 rounded-xl border border-outline-variant p-6 mt-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-secondary text-2xl">inventory_2</span>
+                    </div>
+                    <div>
+                        <h3 class="text-h3 text-on-surface">Total Blood Units</h3>
+                        <p class="text-caption text-on-surface-variant">Combined across all blood types</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="text-[40px] font-extrabold text-secondary">
+                        <%= (parseInt(data.A||0) + parseInt(data.A_||0) + parseInt(data.B||0) + parseInt(data.B_||0) + parseInt(data.AB||0) + parseInt(data.AB_||0) + parseInt(data.O||0) + parseInt(data.O_||0) + parseInt(data.A1||0) + parseInt(data.A1_||0) + parseInt(data.A2||0) + parseInt(data.A2_||0) + parseInt(data.A1B||0) + parseInt(data.A1B_||0) + parseInt(data.A2B||0) + parseInt(data.A2B_||0)) %>
+                    </p>
+                    <p class="text-caption text-on-surface-variant">units available</p>
+                </div>
+            </div>
+        </div>
     </div>
-    </form>
+</main>
 
 <% include partials/footer %>

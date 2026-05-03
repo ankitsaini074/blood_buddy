@@ -35,9 +35,9 @@ router.get('/register',function(req,res){
 router.get('/registerHospital',function(req,res){
     res.render('registerHospital');
 });
-// Set multer storage 
+// Set multer storage
 const storage = multer.diskStorage({
-    destination : './public/uploads',
+    destination : path.join(__dirname, '../public/uploads'),
     filename : function(req,file,cb){
          cb(
              null,file.fieldname + '-' + Date.now() + path.extname(file.originalname)
@@ -47,12 +47,13 @@ const storage = multer.diskStorage({
 
 // Initialize upload
 const upload = multer({
-    storage : storage ,
+    storage : storage,
     limits:{fileSize:10000000},
     fileFilter :(req,file,cb)=>{
         checkFileType(file,cb);
     }
-}).single('profilePic');
+});
+
 
 //Check file type
 function checkFileType(file,cb){
@@ -62,65 +63,45 @@ function checkFileType(file,cb){
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     // check mime
     const mimetype = filetypes.test(file.mimetype);
-    console.log(path.extname(file.originalname).toLowerCase());
-    console.log(mimetype);
+    console.log('File extension:', path.extname(file.originalname).toLowerCase());
+    console.log('File mimetype:', file.mimetype);
     if(mimetype && extname)
     {
         return cb(null,true);
     }
-    else 
-    {console.log(file);
-    cb('Error : Images Only!');}
+    else
+    {console.log('Invalid file:', file);
+    cb('Error: Images Only (JPEG, JPG, PNG, GIF)');}
 }
 
 
 
 //Register Route
-router.post('/register',(req,res,next)=>{
-    upload(req,res,(err)=>{
-        if(err)
-        res.render('register',{msg: err});
-        else 
-        {
-          if(req.file == undefined){
-              res.render('register',{msg:'Error: No file selected!'});
-          }
-          else {
-            next();
-          }
-        }
-        
-    })
-   },
-     passport.authenticate('local-signup', {
-    successRedirect : '/profile', 
-    failureRedirect : '/',
-    failureFlash :true    
-     })
-);
+router.post('/register', upload.single('profilePic'), (req, res, next) => {
+    if(!req.file) {
+        req.flash('error', 'Please select a profile picture');
+        return res.redirect('/auth/register');
+    }
+
+    next();
+}, passport.authenticate('local-signup', {
+    successRedirect : '/profile',
+    failureRedirect : '/auth/register',
+    failureFlash : true
+}));
     
-router.post('/registerHospital',(req,res,next)=>{
-    upload(req,res,(err)=>{
-        if(err)
-        res.render('registerHospital',{msg: err});
-        else 
-        {
-          if(req.file == undefined){
-              res.render('registerHospital',{msg:'Error: No file selected!'});
-          }
-          else {
-            next();
-          }
-        }
-        
-    })
-   },middleware.seed,
-    passport.authenticate('local-signup-hospital', {
-    successRedirect : '/profileHospital', 
-    failureRedirect : '/',
-    failureFlash :true    
-})
-);
+router.post('/registerHospital', upload.single('profilePic'), middleware.seed, (req, res, next) => {
+    if(!req.file) {
+        req.flash('error', 'Please select a profile picture');
+        return res.redirect('/auth/registerHospital');
+    }
+
+    next();
+}, passport.authenticate('local-signup-hospital', {
+    successRedirect : '/profileHospital',
+    failureRedirect : '/auth/registerHospital',
+    failureFlash : true
+}));
 
 //Show login form
 router.get('/login', function(req, res){

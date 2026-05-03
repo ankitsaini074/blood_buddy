@@ -1,7 +1,18 @@
+function previewImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profile-preview').innerHTML =
+                '<img src="' + e.target.result + '" alt="Preview" class="w-full h-full object-cover">';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 $(document).ready(function(){
     //check duplicate usernammes
     $("#username").focusout(function() {
-        var username=$( "#username" ).val();
+        var username=$("#username").val();
         console.log(username);
 
       if(username!=null)
@@ -9,37 +20,53 @@ $(document).ready(function(){
          // console.log("good hello");
        if(username==data.username)
        {
-       alert("user alredy exists");
-       $( "#username" ).val("");
-       } 
-      
-     
+       showToast("Username already exists");
+       $("#username").val("");
+       }
+
+
        }, "json");
     });
 
     //confirms password..
-         $( "#form" ).submit(function( event ) {
-             var cpass=$( "#confirmPassword" ).val();
-             var pass=$( "#password" ).val();
-                 if (cpass != pass  ) 
+         $( "#hospital-form" ).submit(function( event ) {
+             // Check if profile picture is uploaded
+             var profilePic = $("#profilePic")[0].files[0];
+             if (!profilePic) {
+                 showToast("Please upload a hospital logo");
+                 event.preventDefault();
+                 return;
+             }
+
+             var cpass=$("#confirmPassword").val();
+             var pass=$("#password").val();
+                 if (cpass != pass  )
                  {
-                   alert("password do not match");
-                   $( "#password" ).val("");
-                   $( "#confirmPassword" ).val("");
+                   showToast("Passwords do not match");
+                   $("#password").val("");
+                   $("#confirmPassword").val("");
                   event.preventDefault();
+                  return;
+                 }
+
+                 // Check terms checkbox
+                 if (!$("#terms").prop("checked")) {
+                     showToast("Please accept Terms of Service");
+                     event.preventDefault();
+                     return;
                  }
          });
-         
 
-          //confirms password..edit 
+
+          //confirms password..edit
           $( "#_form" ).submit(function( event ) {
-            var cpass=$( "#_confirmPassword" ).val();
-            var pass=$( "#_password" ).val();
-                if (cpass != pass  ) 
+            var cpass=$("#_confirmPassword").val();
+            var pass=$("#_password").val();
+                if (cpass != pass  )
                 {
-                  alert("password do not match");
-                  $( "#_password" ).val("");
-                  $( "#_confirmPassword" ).val("");
+                  showToast("Passwords do not match");
+                  $("#_password").val("");
+                  $("#_confirmPassword").val("");
                  event.preventDefault();
                 }
         });
@@ -47,51 +74,51 @@ $(document).ready(function(){
          //check duplicate email
          $("#email").focusout(function() {
 
-            var email=$( "#email" ).val();
+            var email=$("#email").val();
             if(email!=null)
             $.post( "/home/hospitalEmailTest", { email: email }, function( data ) {
              if(email==data.email)
              {
-             alert("email alredy rgistered");
-             $( "#email" ).val("");
-             } 
-           
+             showToast("Email already registered");
+             $("#email").val("");
+             }
+
              }, "json");
           });
 
           // phone number
           $("#phoneNumber").focusout(function() {
 
-            var phoneNumber=$( "#phoneNumber" ).val();
+            var phoneNumber=$("#phoneNumber").val();
             console.log(phoneNumber);
             if(phoneNumber.length!=10)
-            alert("invalid numbers");
+            showToast("Phone number must be 10 digits");
             for (let index = 0; index < phoneNumber.length; index++) {
                 if(Number.isNaN(phoneNumber[index])==true)
-               { 
+               {
                    console.log(Number.isNaN(phoneNumber[index]));
-                   alert("invalid number");
+                   showToast("Invalid phone number");
                    break;
                }
-                
+
             }
         });
 
             // phone number  in edit
             $("#_phoneNumber").focusout(function() {
 
-                var phoneNumber=$( "#_phoneNumber" ).val();
+                var phoneNumber=$("#_phoneNumber").val();
                 console.log(phoneNumber);
                 if(phoneNumber.length!=10)
-                alert("invalid numbers");
+                showToast("Phone number must be 10 digits");
                 for (let index = 0; index < phoneNumber.length; index++) {
                     if(Number.isNaN(phoneNumber[index])==true)
-                   { 
+                   {
                        console.log(Number.isNaN(phoneNumber[index]));
-                       alert("invalid number");
+                       showToast("Invalid phone number");
                        break;
                    }
-                    
+
                 }
             });
 });

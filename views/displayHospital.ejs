@@ -1,18 +1,109 @@
 <% include partials/header %>
-<div class="container">
-	<h1>Hospitals list</h1>
-    <div class="row">
-<br>
-        <ul>
-            <%hospitals.forEach(function(hosp){%>
-                <li><div ><h1><%=hosp.name%> </h1>
-                          <%=hosp.contactNumber%>
 
-                 </div></li>
-
-                <%});%>
-        </ul>
-
+<main class="max-w-[1280px] mx-auto px-6 md:px-10 py-16 md:py-20">
+    <div class="mb-10">
+        <h1 class="text-h1 text-on-surface mb-4">Hospital List</h1>
+        <p class="text-body-lg text-on-surface-variant">
+            Found <span class="font-semibold text-on-surface"><%= hospitals.length %></span>
+            <%= hospitals.length === 1 ? 'hospital' : 'hospitals' %> in your search.
+        </p>
     </div>
+
+    <% if (hospitals.length > 0) { %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% hospitals.forEach(function(hosp) { %>
+                <div class="bg-white rounded-xl border border-outline-variant shadow-sm hover:shadow-lg transition-shadow overflow-hidden group">
+                    <!-- Card Header with Image -->
+                    <div class="relative">
+                        <div class="h-24 bg-gradient-to-r from-secondary to-secondary-container"></div>
+                        <div class="absolute -bottom-12 left-6">
+                            <div class="w-24 h-24 rounded-full border-4 border-white shadow-lg bg-surface-container-low flex items-center justify-center">
+                                <% if(hosp.profilePic) { %>
+                                    <% var file = 'uploads/' + hosp.profilePic; %>
+                                    <img src="<%= file %>" alt="Hospital Logo" class="w-full h-full object-cover">
+                                <% } else { %>
+                                    <span class="material-symbols-outlined text-4xl text-secondary">local_hospital</span>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="pt-16 pb-6 px-6">
+                        <div class="mb-3">
+                            <h3 class="text-h3 text-on-surface truncate"><%= hosp.name %></h3>
+                            <p class="text-caption text-on-surface-variant flex items-center gap-1 mt-1">
+                                <span class="material-symbols-outlined text-[14px]">location_on</span>
+                                <%= hosp.city %>
+                            </p>
+                        </div>
+
+                        <div class="space-y-2 mb-4">
+                            <p class="text-body-md text-on-surface flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px] text-outline-variant">phone</span>
+                                <%= hosp.contactNumber %>
+                            </p>
+                            <p class="text-caption text-secondary flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px]">inventory_2</span>
+                                Blood bank available
+                            </p>
+                        </div>
+
+                        <form action="/hospitalquery" method="post" class="w-full">
+                            <input type="hidden" name="username" value="<%= hosp.local.username %>">
+                            <button type="submit" class="w-full h-11 bg-secondary text-on-secondary rounded-lg font-label-md hover:bg-on-secondary-container transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined">visibility</span>
+                                View Blood Inventory
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <!-- Empty State -->
+        <div class="bg-white rounded-2xl border border-outline-variant shadow-sm p-12 text-center">
+            <div class="w-20 h-20 bg-surface-container-low rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-4xl text-outline-variant">local_hospital</span>
+            </div>
+            <h3 class="text-h2 text-on-surface mb-3">No Hospitals Found</h3>
+            <p class="text-body-md text-on-surface-variant mb-6 max-w-md mx-auto">
+                We couldn't find any hospitals in this city. Try searching for a different location or contact nearby areas.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="/searchHospital" class="inline-flex items-center px-6 py-3 bg-secondary text-on-secondary rounded-lg font-label-md hover:bg-on-secondary-container transition-colors gap-2">
+                    <span class="material-symbols-outlined">refresh</span>
+                    New Search
+                </a>
+                <a href="/search" class="inline-flex items-center px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 transition-colors gap-2">
+                    <span class="material-symbols-outlined">person_search</span>
+                    Find Donors
+                </a>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- Call to Action -->
+    <div class="mt-12 bg-gradient-to-r from-secondary/5 to-tertiary/5 rounded-xl border border-outline-variant p-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex-1">
+                <h3 class="text-h2 text-on-surface mb-3">Can't find a hospital?</h3>
+                <p class="text-body-md text-on-surface-variant">
+                    Consider searching for individual donors who may be available to help in emergency situations.
+                </p>
+            </div>
+            <div class="flex gap-4">
+                <a href="/search" class="inline-flex items-center px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 transition-colors gap-2">
+                    <span class="material-symbols-outlined">person_search</span>
+                    Find Donors
+                </a>
+                <a href="/auth/registerHospital" class="inline-flex items-center px-6 py-3 bg-secondary text-on-secondary rounded-lg font-label-md hover:bg-on-secondary-container transition-colors gap-2">
+                    <span class="material-symbols-outlined">add_business</span>
+                    Register Hospital
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
 
 <% include partials/footer %>

@@ -1,42 +1,125 @@
 <% include partials/header %>
 
-<h1 class="user-name wow fadeInDown" ><%= donor.name %> (<%= donor.local.username %> )</h1>
-<% if(donor.activeStatus == true) { %>
-    <h4 class="text-center user-name wow fadeInDown" style="color:#007642"> Currently Active </h4>
-<% } else { %>
-    <h4 class="text-center user-name wow fadeInDown"> Not Active</h4>
-    <% } %>
-    
-<section>
-  <div class="container py-3">
-    <div class="card" style="width:auto;">
-      <div class="row ">
-        <div class="col-md-4">
-             <a href="#" title="title here" class="wow zoomInUp">
-                <% var file = 'uploads/' + donor.profilePic ; %>
-                <img src="<%= file %>" alt="Avatar" class="w-100"/>
-            </a>
-          </div>
-          <div class="col-md-8 px-3">
-            <div class="card-block wow fadeInUp px-3">
-                <div class="card-text">
-                    <ul style="list-style:none;margin-top:100px;line-height:2;">
-                        <li>Email         : <%= donor.email %></li>
-                        <li>Contact       : <%= donor.contactNumber%></li>
-                        <li>Address       : <%= donor.address %></li>
-                        <li>Blood Group   : <%= donor.bloodGroup %></li>
-                        <li>Gender        : <%= donor.gender%></li>
-                        <li>D.O.B.        : <%= donor.dob %></li>
-                        <li>City          : <%= donor.city%></li>
-                        <li>Last donation : <%= donor.dateOfLastDonation %></li>
-                    </ul>
+<main class="max-w-[1280px] mx-auto px-6 md:px-10 py-16 md:py-20">
+    <div class="max-w-4xl mx-auto">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-outline-variant">
+            <!-- Banner -->
+            <div class="h-32 bg-gradient-to-r from-primary to-primary-container"></div>
+
+            <!-- Profile Info -->
+            <div class="px-6 md:px-10 pb-8">
+                <div class="flex flex-col md:flex-row items-start md:items-end -mt-16 gap-6">
+                    <!-- Profile Image -->
+                    <div class="relative">
+                        <div class="w-32 h-32 rounded-full border-4 border-surface-container-lowest overflow-hidden shadow-lg">
+                            <% var file = 'uploads/' + donor.profilePic; %>
+                            <img src="<%= file %>" alt="Profile" class="w-full h-full object-cover">
+                        </div>
+                        <span class="absolute bottom-2 right-2 w-6 h-6 <%= donor.activeStatus ? 'bg-green-500' : 'bg-gray-400' %> rounded-full border-4 border-white"></span>
+                    </div>
+
+                    <!-- Name & Status -->
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-3 mb-2">
+                            <h1 class="text-h2 text-on-surface"><%= donor.name %></h1>
+                            <% if(donor.activeStatus == true) { %>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-label-md font-semibold flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">verified</span>
+                                    Active
+                                </span>
+                            <% } else { %>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-label-md font-semibold">Inactive</span>
+                            <% } %>
+                        </div>
+                        <p class="text-body-md text-on-surface-variant">@<%= donor.local.username %></p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3">
+                        <a href="/edit" class="inline-flex items-center px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-primary/20 gap-2">
+                            <span class="material-symbols-outlined">edit</span>
+                            Edit Profile
+                        </a>
+                        <a href="/auth/logout" class="inline-flex items-center px-6 py-3 bg-surface-container-low text-on-surface rounded-lg font-label-md hover:bg-surface-container transition-colors gap-2">
+                            <span class="material-symbols-outlined">logout</span>
+                            Logout
+                        </a>
+                    </div>
                 </div>
-                <a href="/edit" class="btn btn-xl btn-general btn-blue text-center" style="margin-left:40px;">Edit Profile</a>
             </div>
-          </div>
         </div>
-      </div>
+
+        <!-- Details Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <!-- Personal Info -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-6">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">person</span>
+                    </div>
+                    <h3 class="text-h3 text-on-surface">Personal Information</h3>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center py-3 border-b border-outline-variant/30">
+                        <span class="text-body-md text-on-surface-variant">Email</span>
+                        <span class="text-body-md text-on-surface font-medium"><%= donor.email %></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-outline-variant/30">
+                        <span class="text-body-md text-on-surface-variant">Contact Number</span>
+                        <span class="text-body-md text-on-surface font-medium"><%= donor.contactNumber %></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-outline-variant/30">
+                        <span class="text-body-md text-on-surface-variant">Date of Birth</span>
+                        <span class="text-body-md text-on-surface font-medium"><%= donor.dob %></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3">
+                        <span class="text-body-md text-on-surface-variant">Gender</span>
+                        <span class="text-body-md text-on-surface font-medium">
+                            <% if(donor.gender === 'M') { %>Male<% } else if(donor.gender === 'F') { %>Female<% } else { %>Other<% } %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blood & Location Info -->
+            <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-6">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-secondary">bloodtype</span>
+                    </div>
+                    <h3 class="text-h3 text-on-surface">Blood & Location</h3>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center py-3 border-b border-outline-variant/30">
+                        <span class="text-body-md text-on-surface-variant">Blood Group</span>
+                        <span class="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-full font-h3 font-semibold">
+                            <%= donor.bloodGroup %>
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-outline-variant/30">
+                        <span class="text-body-md text-on-surface-variant">Last Donation</span>
+                        <span class="text-body-md text-on-surface font-medium"><%= donor.dateOfLastDonation || 'Not recorded' %></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3">
+                        <span class="text-body-md text-on-surface-variant">City</span>
+                        <span class="text-body-md text-on-surface font-medium"><%= donor.city %></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Card -->
+        <div class="bg-white rounded-xl border border-outline-variant shadow-sm p-6 mt-6">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-tertiary/10 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-tertiary">location_on</span>
+                </div>
+                <h3 class="text-h3 text-on-surface">Address</h3>
+            </div>
+            <p class="text-body-md text-on-surface"><%= donor.address %></p>
+        </div>
     </div>
-</section>  
-  
+</main>
+
 <% include partials/footer %>

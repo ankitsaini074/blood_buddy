@@ -1,84 +1,224 @@
 <% include partials/header %>
-    <div class="container-fluid edit-hosp-database-container" style="background-image:linear-gradient(red,white);height:100vh;">
-        <form action="/hospDatabaseForm" id ="form" method="POST" >
-            <div class="form-group" style="padding:0 8%;">
-                <label>
-                    A+<br>
-                    <input type ="text" class="form-control" name ="A"  value=<%=data.A %> required>
-                </label>
-                <label>
-                    A-<br>
-                    <input type ="text" class="form-control" name ="A_" value=<%=data.A_ %>  required>
-                </label>
-                <label>
-                    A1+<br>
-                    <input type ="text" class="form-control" name ="A1"  value=<%=data.A1 %> required>
-                </label>
-                <label>
-                    A1-<br>
-                    <input type ="text" class="form-control" name ="A1_"  value=<%=data.A1_ %> required>
-                </label>
-                <label>
-                    A2+<br>
-                    <input type ="text" class="form-control" name ="A2"  value=<%=data.A2 %> required>
-                </label>
-                <label>
-                    A2-<br>
-                    <input type ="text" class="form-control" name ="A2_"  value=<%=data.A2_ %> required>
-                </label>
-                <label>
-                    A1B+<br>
-                    <input type ="text" class="form-control" name ="A1B"  value=<%=data.A1B %> required>
-                </label>
-                <label>
-                    A1B-<br>
-                    <input type ="text" class="form-control" name ="A1B_"  value=<%=data.A1B_ %> required>
-                </label>
-                <label>
-                    A2B<br>
-                    <input type ="text" class="form-control" name ="A2B"  value=<%=data.A2B %> required>
-                </label>
-                <label>
-                    A2B-<br>
-                    <input type ="text" class="form-control" name ="A2B_"  value=<%=data.A2B_ %> required>
-                </label>
-                <label>
-                    AB+<br>
-                    <input type ="text" class="form-control" name ="AB"  value=<%=data.AB %> required>
-                </label>
-                <label>
-                    AB-<br>
-                    <input type ="text" class="form-control" name ="AB_"  value=<%=data.AB_ %> required>
-                </label>
-                <label>
-                    B+<br>
-                    <input type ="text" class="form-control" name ="B"  value=<%=data.B %> required>
-                </label>
-                <label>
-                    B-<br>
-                    <input type ="text" class="form-control" name ="B_"  value=<%=data.B_ %> required>
-                </label>
-                
-                <label>
-                    O+<br>
-                    <input type ="text" class="form-control" name ="O"  value=<%=data.O %> required>
-                </label>
-                <label>
-                    O-<br>
-                    <input type ="text" class="form-control" name ="O_"  value=<%=data.O_ %> required>
-                </label>
-                
+
+<main class="max-w-[1280px] mx-auto px-6 md:px-10 py-16 md:py-20">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-secondary text-4xl">inventory_2</span>
             </div>
-            <div class="container text-center">
-                <button type="submit" class="btn btn-xl btn-general btn-blue text-center" style="margin:50px 171px 0 0;">UPDATE</button>
-            </div>
-        </form>
+            <h1 class="text-h1 text-on-surface mb-3">Update Blood Inventory</h1>
+            <p class="text-body-md text-on-surface-variant">Keep your blood stock levels updated to help patients find available blood types.</p>
+        </div>
+
+        <!-- Edit Form -->
+        <div class="bg-white rounded-2xl shadow-lg border border-outline-variant overflow-hidden">
+            <form action="/hospDatabaseForm" id="form" method="POST">
+                <div class="p-6 md:p-10">
+                    <!-- Blood Groups Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <!-- A+ -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-primary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-primary text-sm">bloodtype</span>
+                                </span>
+                                A+
+                            </label>
+                            <input type="text" name="A" value="<%= data.A %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- A- -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-primary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-primary text-sm">bloodtype</span>
+                                </span>
+                                A-
+                            </label>
+                            <input type="text" name="A_" value="<%= data.A_ %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- B+ -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-secondary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-secondary text-sm">bloodtype</span>
+                                </span>
+                                B+
+                            </label>
+                            <input type="text" name="B" value="<%= data.B %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- B- -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-secondary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-secondary text-sm">bloodtype</span>
+                                </span>
+                                B-
+                            </label>
+                            <input type="text" name="B_" value="<%= data.B_ %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- AB+ -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-tertiary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-tertiary text-sm">bloodtype</span>
+                                </span>
+                                AB+
+                            </label>
+                            <input type="text" name="AB" value="<%= data.AB %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- AB- -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-tertiary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-tertiary text-sm">bloodtype</span>
+                                </span>
+                                AB-
+                            </label>
+                            <input type="text" name="AB_" value="<%= data.AB_ %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- O+ -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-error/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-error text-sm">bloodtype</span>
+                                </span>
+                                O+
+                            </label>
+                            <input type="text" name="O" value="<%= data.O %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- O- -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-error/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-error text-sm">bloodtype</span>
+                                </span>
+                                O-
+                            </label>
+                            <input type="text" name="O_" value="<%= data.O_ %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- A1+ -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-primary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-primary text-sm">bloodtype</span>
+                                </span>
+                                A1+
+                            </label>
+                            <input type="text" name="A1" value="<%= data.A1 %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- A1- -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-primary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-primary text-sm">bloodtype</span>
+                                </span>
+                                A1-
+                            </label>
+                            <input type="text" name="A1_" value="<%= data.A1_ %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- A2+ -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-primary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-primary text-sm">bloodtype</span>
+                                </span>
+                                A2+
+                            </label>
+                            <input type="text" name="A2" value="<%= data.A2 %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- A2- -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-primary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-primary text-sm">bloodtype</span>
+                                </span>
+                                A2-
+                            </label>
+                            <input type="text" name="A2_" value="<%= data.A2_ %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- A1B+ -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-tertiary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-tertiary text-sm">bloodtype</span>
+                                </span>
+                                A1B+
+                            </label>
+                            <input type="text" name="A1B" value="<%= data.A1B %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- A1B- -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-tertiary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-tertiary text-sm">bloodtype</span>
+                                </span>
+                                A1B-
+                            </label>
+                            <input type="text" name="A1B_" value="<%= data.A1B_ %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- A2B+ -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-tertiary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-tertiary text-sm">bloodtype</span>
+                                </span>
+                                A2B+
+                            </label>
+                            <input type="text" name="A2B" value="<%= data.A2B %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+
+                        <!-- A2B- -->
+                        <div class="space-y-2">
+                            <label class="text-label-md text-on-surface-variant block flex items-center gap-2">
+                                <span class="w-6 h-6 bg-tertiary/10 rounded flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-tertiary text-sm">bloodtype</span>
+                                </span>
+                                A2B-
+                            </label>
+                            <input type="text" name="A2B_" value="<%= data.A2B_ %>" required class="w-full h-12 px-4 bg-surface-container-low border-none rounded-lg text-body-md form-input-focus transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Info Box -->
+                    <div class="bg-secondary/5 rounded-lg p-5 border border-secondary/20 mb-8">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary text-xl">info</span>
+                            <div>
+                                <p class="text-body-md text-on-surface font-medium mb-1">Update Frequency</p>
+                                <p class="text-body-md text-on-surface-variant">For the best results, update your blood inventory daily. This helps patients and other hospitals find available blood quickly.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex flex-wrap gap-4">
+                        <button type="submit" class="flex-1 min-w-[200px] h-14 bg-secondary text-on-secondary rounded-lg font-label-md hover:bg-on-secondary-container active:scale-[0.99] transition-all duration-300 shadow-lg shadow-secondary/20 flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">save</span>
+                            Update Inventory
+                        </button>
+                        <a href="/hospDatabase" class="inline-flex items-center px-8 py-4 bg-surface-container-low text-on-surface rounded-lg font-label-md hover:bg-surface-container transition-colors gap-2">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-<!--
-    <script>
-        alert("hello world");
-    </script>
--->
-        
+</main>
+
 <% include partials/footer %>
-        

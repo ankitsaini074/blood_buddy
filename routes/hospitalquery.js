@@ -19,17 +19,13 @@ router.use(function(req, res, next){
     next();
 });
 
-
-    router.post('/', function(req, res){
-        hospital.findOne({ 'local.username':req.body.username }, function (err, user) {
-            if (err)
-                return done(err);
-            else 
-            res.render('profileHospitalTemp',{hospital:user});
-           
-    });
+router.post('/', async function(req, res){
+    try {
+        const user = await hospital.findOne({ 'local.username':req.body.username });
+        res.render('profileHospitalTemp',{hospital:user});
+    } catch (err) {
+        console.error(err);
+    }
 });
 
-
-
-  module.exports = router;
+module.exports = router;

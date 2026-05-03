@@ -58,7 +58,7 @@ router.post('/',(req,res,next)=>{
     upload(req,res,(err)=>{
         if(err)
         res.render('editHospital',{msg: err , hospital : req.user});
-        else 
+        else
         {
           if(req.file == undefined){
               res.render('editHospital',{msg:'Error: No file selected!' , hospital : req.user});
@@ -67,30 +67,30 @@ router.post('/',(req,res,next)=>{
             next();
           }
         }
-        
+
     })
-   },function(req,res){
-    var updatedHospital = new hospital(); 
-    updatedHospital.local.username    = req.user.local.username;
-    updatedHospital.local.password = updatedHospital.generateHash(req.body.password);
-    updatedHospital.name = req.user.name;
-    updatedHospital.email = req.body.email;
-    updatedHospital.profilePic = req.file.filename;
-    updatedHospital.confirmPassword = req.body.confirmPassword;
-    updatedHospital.city = req.body.city;
-    updatedHospital.contactNumber = req.body.contactNumber;
-    updatedHospital.address = req.body.address;
-    updatedHospital.userType = req.body.userType;
-    updatedHospital._id = req.user._id;
-    console.log(req.user,req.user.local.username,updatedHospital,req.user._id);
-    
-    hospital.findByIdAndUpdate(req.user._id,{$set: updatedHospital}, {upsert:true}, function(err, updated){
-        if (err) console.log(err);
-        //check - console.log(updated);
+   }, async function(req,res){
+    try {
+        var updatedHospital = new hospital();
+        updatedHospital.local.username    = req.user.local.username;
+        updatedHospital.local.password = updatedHospital.generateHash(req.body.password);
+        updatedHospital.name = req.user.name;
+        updatedHospital.email = req.body.email;
+        updatedHospital.profilePic = req.file.filename;
+        updatedHospital.confirmPassword = req.body.confirmPassword;
+        updatedHospital.city = req.body.city;
+        updatedHospital.contactNumber = req.body.contactNumber;
+        updatedHospital.address = req.body.address;
+        updatedHospital.userType = req.body.userType;
+        updatedHospital._id = req.user._id;
+        console.log(req.user,req.user.local.username,updatedHospital,req.user._id);
+
+        await hospital.findByIdAndUpdate(req.user._id,{$set: updatedHospital}, {upsert:true});
         req.flash('success','Updated Successfully!');
         res.redirect('/profileHospital');
-    });
-
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 module.exports = router;

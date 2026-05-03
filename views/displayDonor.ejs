@@ -1,34 +1,142 @@
 <% include partials/header %>
 
-<h1 style="padding-top:10%;color:#f20000;font-weight:700;" class="text-center animated bounceInDown">Donor list</h1>
+<main class="max-w-[1280px] mx-auto px-6 md:px-10 py-16 md:py-20">
+    <div class="mb-10">
+        <h1 class="text-h1 text-on-surface mb-4">Donor List</h1>
+        <p class="text-body-lg text-on-surface-variant">
+            Found <span class="font-semibold text-on-surface"><%= donors.length %></span>
+            <%= donors.length === 1 ? 'match' : 'matches' %> for your search.
+        </p>
+    </div>
 
-		<div class ="container hospital-donor-list">
-            <%donors.forEach(function(donor){%>
-            <div class="card wow slideInUp" >
-              <% if(donor.userType=="Hospital"){ %>
-                    <img class="card-img-top image-card" src="img/hospital.png" alt="Card image" >
-                <% }else{ %>
-                   <img class="card-img-top image-card" src="img/users/client-1.jpg" alt="Card image" >
-                <%}%>
-                <div class="card-header"><b><%=donor.name%></b></div>
-                <div class="card-body"><%=donor.userType%><br>
-                    Contact :<%= donor.contactNumber%>
-                    <% if (donor.userType == "Hospital") { %>
-                        <div class="form-group">
-                            <label>
-                        <form action="/hospitalquery" method="post">
-                        <input type="hidden" name="username" value=<%= donor.local.username %> >
-                        <button type="submit" class="btn btn-primary" >View Hospital</button>
-                        </form></label></div>
-                        <%} else { %>
-                            <div class="card-header"><b>Blood Group : <%=donor.bloodGroup%></b></div>
+    <% if (donors.length > 0) { %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% donors.forEach(function(donor) { %>
+                <div class="bg-white rounded-xl border border-outline-variant shadow-sm hover:shadow-lg transition-shadow overflow-hidden group">
+                    <!-- Card Header with Image -->
+                    <div class="relative">
+                        <div class="h-24 bg-gradient-to-r <%= donor.userType === 'Hospital' ? 'from-secondary to-secondary-container' : 'from-primary to-primary-container' %>"></div>
+                        <div class="absolute -bottom-12 left-6">
+                            <% if(donor.userType === 'Hospital') { %>
+                                <div class="w-24 h-24 rounded-full bg-white border-4 border-white shadow-lg flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-4xl text-secondary">local_hospital</span>
+                                </div>
+                            <% } else { %>
+                                <div class="w-24 h-24 rounded-full border-4 border-white shadow-lg overflow-hidden bg-surface-container-low">
+                                    <% if(donor.profilePic) { %>
+                                        <% var file = 'uploads/' + donor.profilePic; %>
+                                        <img src="<%= file %>" alt="Profile" class="w-full h-full object-cover">
+                                    <% } else { %>
+                                        <div class="w-full h-full bg-surface-container flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-3xl text-outline-variant">person</span>
+                                        </div>
+                                    <% } %>
+                                </div>
                             <% } %>
+                        </div>
+                        <% if(donor.userType === 'Donor' && donor.activeStatus === true) { %>
+                            <span class="absolute top-4 right-4 px-3 py-1 bg-green-500 text-white rounded-full text-label-md font-semibold flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px]">verified</span>
+                                Active
+                            </span>
+                        <% } %>
+                    </div>
 
-                
+                    <!-- Card Body -->
+                    <div class="pt-16 pb-6 px-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-h3 text-on-surface truncate"><%= donor.name %></h3>
+                            <% if(donor.userType === 'Hospital') { %>
+                                <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-caption font-semibold">Hospital</span>
+                            <% } else if(donor.bloodGroup) { %>
+                                <span class="inline-flex items-center px-3 py-1 bg-primary/10 text-primary rounded-full font-label-md font-semibold">
+                                    <%= donor.bloodGroup %>
+                                </span>
+                            <% } %>
+                        </div>
+
+                        <p class="text-caption text-on-surface-variant mb-4 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">location_on</span>
+                            <%= donor.city %>
+                        </p>
+
+                        <div class="space-y-2 mb-4">
+                            <p class="text-body-md text-on-surface flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px] text-outline-variant">phone</span>
+                                <%= donor.contactNumber %>
+                            </p>
+                            <% if(donor.userType === 'Hospital') { %>
+                                <p class="text-body-md text-on-surface-variant">Blood bank available</p>
+                            <% } else if(donor.activeStatus !== true) { %>
+                                <p class="text-caption text-amber-700 flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[14px]">schedule</span>
+                                    Currently inactive for donation
+                                </p>
+                            <% } %>
+                        </div>
+
+                        <% if(donor.userType === 'Hospital') { %>
+                            <form action="/hospitalquery" method="post" class="w-full">
+                                <input type="hidden" name="username" value="<%= donor.local.username %>">
+                                <button type="submit" class="w-full h-11 bg-secondary text-on-secondary rounded-lg font-label-md hover:bg-on-secondary-container transition-colors flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                    View Hospital Inventory
+                                </button>
+                            </form>
+                        <% } else if(donor.activeStatus === true) { %>
+                            <a href="tel:<%= donor.contactNumber %>" class="block w-full h-11 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 text-center leading-[2.75rem] transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined">call</span>
+                                Contact Donor
+                            </a>
+                        <% } %>
+                    </div>
                 </div>
-                
-            </div>  
-            <%});%>
-		</div>
-         
+            <% }); %>
+        </div>
+    <% } else { %>
+        <!-- Empty State -->
+        <div class="bg-white rounded-2xl border border-outline-variant shadow-sm p-12 text-center">
+            <div class="w-20 h-20 bg-surface-container-low rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-4xl text-outline-variant">search_off</span>
+            </div>
+            <h3 class="text-h2 text-on-surface mb-3">No Results Found</h3>
+            <p class="text-body-md text-on-surface-variant mb-6 max-w-md mx-auto">
+                We couldn't find any donors matching your search criteria. Try adjusting your filters or search for a different location.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="/search" class="inline-flex items-center px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 transition-colors gap-2">
+                    <span class="material-symbols-outlined">refresh</span>
+                    New Search
+                </a>
+                <a href="/auth/register" class="inline-flex items-center px-6 py-3 bg-surface-container-low text-on-surface rounded-lg font-label-md hover:bg-surface-container transition-colors gap-2">
+                    <span class="material-symbols-outlined">person_add</span>
+                    Register as Donor
+                </a>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- Call to Action -->
+    <div class="mt-12 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl border border-outline-variant p-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex-1">
+                <h3 class="text-h2 text-on-surface mb-3">Can't find a donor?</h3>
+                <p class="text-body-md text-on-surface-variant">
+                    Consider registering as a donor or reaching out to nearby hospitals that may have blood banks.
+                </p>
+            </div>
+            <div class="flex gap-4">
+                <a href="/searchHospital" class="inline-flex items-center px-6 py-3 bg-secondary text-on-secondary rounded-lg font-label-md hover:bg-on-secondary-container transition-colors gap-2">
+                    <span class="material-symbols-outlined">local_hospital</span>
+                    Find Hospitals
+                </a>
+                <a href="/auth/register" class="inline-flex items-center px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 transition-colors gap-2">
+                    <span class="material-symbols-outlined">volunteer_activism</span>
+                    Become a Donor
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
 <% include partials/footer %>
